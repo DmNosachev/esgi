@@ -62,7 +62,8 @@
 \definecolor{colorMain}{HTML}{00ADEE}
 
 % таблицы серый фон
-\definecolor{colorTbGray}{HTML}{F4F4F4}
+\definecolor{colorTbGray}{HTML}{E6E6E6}
+\definecolor{colorTbLineColor}{HTML}{606060}
 
 \RequirePackage{refcount}
 \setrefcountdefault{-1}
@@ -216,7 +217,7 @@
 \RequirePackage{tabularray}
 \NewTblrTheme{esgi}{
     %\SetTblrStyle{firsthead}{font=\bfseries}
-    \SetTblrStyle{caption-tag}{font=\small\bfseries}
+    \SetTblrStyle{caption-tag}{font=\small\itshape}
     \SetTblrStyle{caption-text}{font=\small}
     \SetTblrStyle{contfoot-text}{font=\small}
     \SetTblrStyle{conthead-text}{font=\small}
@@ -235,6 +236,7 @@
 % \titleformat{command}[shape]{format}{label}{sep}{before-code}[after-code]
 
 
+
 %\titleformat{\chapter}%
 %{\normalfont\HUGE\bfseries}%
 %{\MakeUppercase{#1}}%
@@ -242,13 +244,13 @@
 %{\vspace{.5ex}}
 %[\thispagestyle{empty}\afterpage{\blankpage}]
 \titleformat{\chapter}[block]
-  {\normalfont\fontsize{33pt}{33pt}\selectfont\bfseries}
-  {\parbox{0.7\textwidth}
-    {\raggedright\MakeUppercase{#1}}}
-    {0pt}
-    {\thispagestyle{empty}}
-    [\afterpage{\blankpage}]
+  {\normalfont\Large\bfseries\filcenter\color{colorMain}}
+  {\parbox{0.7\textwidth}{\filcenter\MakeUppercase{#1}}}
+  {0pt}
+  {}
+  []
 
+\titleclass{\chapter}{straight}
   
 \titleformat{\section}[block]
 {\setstretch{1.1}\normalfont\bfseries\filcenter\Large}
@@ -284,7 +286,7 @@
 \titlespacing*{\chapter}
     {0pt} % left
     {-0.5in} % before
-    {1em} % after
+    {0pt} % after
     
 \titlespacing*{\subsection}
 {0pt} % left
@@ -303,8 +305,8 @@
 \titlecontents{chapter}
 [5mm]
 {\addvspace{1em}}
-{\bfseries\uppercase}
-{\bfseries\uppercase}%\hspace*{-9mm}
+{\bfseries}
+{\bfseries}%\hspace*{-9mm}
 {\hfill \normalfont \contentspage}[\medskip]
 
 
@@ -321,7 +323,7 @@
 \renewcommand{\@tocrmarg}{2.55em plus1fil}
 
 % главы без страниц
-\assignpagestyle{\chapter}{empty}
+\assignpagestyle{\chapter}{main}
 
 %*******************
 % колонтитулы
@@ -547,20 +549,15 @@ pdftitle={\esgiYear{} №~\esgiMonth{} (\esgiNum)}, luatex]{hyperref}
 
 \newenvironment{esgiArticle}
 {\begin{refsection}
-\vspace{2em}
- \begin{multicols}{2}}
-{\end{multicols}
+\vspace{2em}}
+{
 \FloatBarrier
-
-\begin{multicols}{2}
-\esgiBibSpace
+%\esgiBibSpace
 \begingroup
 \setstretch{1.0}
 \printbibliography[heading=esgiBibheading]
 \endgroup
-\end{multicols}
 \end{refsection}
-
 \esgiFooterWrite}
 
 
@@ -569,6 +566,14 @@ pdftitle={\esgiYear{} №~\esgiMonth{} (\esgiNum)}, luatex]{hyperref}
     \chapter{#1}
     \write\myoutput{Chapter\thechapter: "#1"}
 }
+
+% анг. секция
+\newcommand\esgiChapterEn[1]{
+\begin{center}
+  \parbox{0.7\textwidth}{\normalfont\Large\bfseries\color{colorMain}\begin{center}\MakeUppercase{#1}\end{center}}
+\end{center}  
+}
+
 
 % секция (статья)
 \newcommand\esgiSection[2]{%
@@ -605,7 +610,6 @@ pdftitle={\esgiYear{} №~\esgiMonth{} (\esgiNum)}, luatex]{hyperref}
 
 % шапка
 \newcommand{\esgiHeader}[1]{%
-    \clearpage
     \begin{flushleft}
         \footnotesize\bfseries
         \esgiName .\esgiYear . №~\esgiNum~(\esgiNumT ). С.~\esgiSecFP --\esgiSecLP .\\
