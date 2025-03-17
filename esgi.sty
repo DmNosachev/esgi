@@ -303,17 +303,17 @@
 %*******************
 
 \titlecontents{chapter}
-[5mm]
-{\addvspace{1em}}
+[0pt]
+{\addvspace{1em}\filcenter}
 {\bfseries}
 {\bfseries}%\hspace*{-9mm}
-{\hfill \normalfont \contentspage}[\medskip]
+{}[\medskip]
 
 
 \titlecontents{section}
 [9mm]
-{\raggedright}
 {}
+{\small}
 {}%\hspace*{-9mm}
 {\titlerule*[0.3pc]{.}\contentspage}[\medskip]
 
@@ -322,8 +322,8 @@
 % не работает для частичных ToC
 \renewcommand{\@tocrmarg}{2.55em plus1fil}
 
-% главы без страниц
-\assignpagestyle{\chapter}{main}
+% Для главы убрать верхний колонтитул
+%\assignpagestyle{\chapter}{mainch}
 
 %*******************
 % колонтитулы
@@ -348,6 +348,23 @@
             \renewcommand{\makefootrule}{\color{colorMain} \rule[\baselineskip]{\linewidth}{0.6pt}}
   }
 
+\newpagestyle{mainch}[\small]{
+    %\setheadrule{0.6pt}%
+    \sethead[]%                                                 even-left
+            []%                                                 even-center
+            []%                                                 even-right
+            {}%                                                 odd-left
+            {\color{colorMain} \itshape \esgiAuthors}%                   odd-center
+            {}\headrule
+    \setfoot[]%                                                 even-left
+            [\color{colorMain} \itshape \esgiName~•~№~\esgiNum~(\esgiNumT)~•~\esgiYear]%                even-center
+            [\color{colorMain} \thepage]%                                                 even-right
+            {\color{colorMain} \thepage}%                                                 odd-left
+            {\color{colorMain} \itshape \esgiName~•~№~\esgiNum~(\esgiNumT)~•~\esgiYear}%                   odd-center
+            {}\footrule %                        odd-right
+            \renewcommand{\makeheadrule}{\color{colorMain} \rule[-.3\baselineskip]{\linewidth}{0.6pt}}
+            \renewcommand{\makefootrule}{\color{colorMain} \rule[\baselineskip]{\linewidth}{0.6pt}}
+  }
 
 
 %*********************
@@ -563,6 +580,7 @@ pdftitle={\esgiYear{} №~\esgiMonth{} (\esgiNum)}, luatex]{hyperref}
 
 % глава (рубрика)
 \newcommand{\esgiChapter}[1]{%
+    \thispagestyle{mainch}
     \chapter{#1}
     \write\myoutput{Chapter\thechapter: "#1"}
 }
@@ -637,7 +655,9 @@ pdftitle={\esgiYear{} №~\esgiMonth{} (\esgiNum)}, luatex]{hyperref}
 
 % Оглавление русск. части
 \newcommand{\esgiPrintRuCont}{%
-    {\hspace{5mm}\raggedright\Large\bfseries\MakeUppercase{Содержание}\par}
+    \begin{center}
+      {\Large\bfseries\color{colorMain}\MakeUppercase{Содержание}\par}
+    \end{center}
     %\hyphenchar\font=-1 % disable hyphen
     % \printcontents[<name>]{<prefix>}{<нач уровень>}[<глубина>]{<toc-code>}
     {\hypersetup{linkcolor=black}\printcontents[partru]{ }{0}[1]
