@@ -1,0 +1,793 @@
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{esgi}[2025/03/14 ESGI journal style]
+
+%*******************
+% параметры
+%*******************
+
+\RequirePackage{xkeyval}
+
+\define@key{esgi}{prndate}{%
+  \newcommand{\esgiPrintDate}{#1} % Подписано в печать
+}
+
+\define@key{esgi}{year}{%
+  \newcommand{\esgiYear}{#1} % год
+}
+
+\define@key{esgi}{vol}{%
+  \newcommand{\esgiVol}{#1} % том
+}
+
+\define@key{esgi}{num}{%
+  \newcommand{\esgiNum}{#1} % номер
+}
+
+\define@key{esgi}{numtotal}{%
+  \newcommand{\esgiNumT}{#1} % номер общий (в скобках)
+}
+
+\define@key{esgi}{upl}{%
+  \newcommand{\esgiUPL}{#1} % кол-во условных печ. листов
+}
+
+\define@key{esgi}{uil}{%
+  \newcommand{\esgiUIL}{#1} % кол-во условных печ. листов
+}
+
+\define@key{esgi}{prnorddate}{%
+  \newcommand{\esgiPDate}{#1} % номер заказа на печать
+}
+
+\define@key{esgi}{prnordernum}{%
+  \newcommand{\esgiPRN}{#1} % номер заказа на печать
+}
+
+
+\DeclareOptionX*{
+    \PackageWarning{esgi}{Unknown option ‘\CurrentOption’}%
+}
+
+\ProcessOptionsX<esgi>
+
+\newcommand{\esgiName}{Экономические и социально-гуманитарные исследования}
+\newcommand{\esgiNameEn}{Economic and Social Research}
+\newcommand{\esgiDOIPrefix}{10.24151/2409-1073}
+\newcommand{\esgiMonth}{Апрель}
+
+% переменные для статьи
+\newcommand{\esgiEDN}{AAAAAA}
+\newcommand{\esgiAuthors}{}
+\newcommand{\esgiAuthorsEn}{}
+\newcommand{\esgiSecFP}{0} % первая страница
+\newcommand{\esgiSecLP}{0} % последняя страница
+\newcommand{\esgiSecName}{} % название статьи
+\newcommand{\esgiSecNameEn}{}
+
+\RequirePackage[dvipsnames]{xcolor}
+
+
+\definecolor{colorMain}{HTML}{00ADEE}
+\definecolor{colorGray}{HTML}{505050}
+
+% таблицы серый фон
+\definecolor{colorTbGray}{HTML}{E6E6E6}
+\definecolor{colorTbLineColor}{HTML}{606060}
+
+\RequirePackage{refcount}
+\setrefcountdefault{-1}
+
+%*******************
+% логирование
+%*******************
+\newwrite\myoutput
+\immediate\openout\myoutput=\jobname.data
+
+%*******************
+% размеры и поля
+%*******************
+\RequirePackage[paperheight=290mm,
+            paperwidth=205mm,
+            top=24mm,
+            bottom=30mm,
+            left=20mm,
+            right=20mm]{geometry}
+
+
+\RequirePackage{changepage}
+
+\RequirePackage[english, russian]{babel}
+
+% modern mode в babel приводит к появлению лишних точек в библиографии
+%\RequirePackage[english, french, chinese, russian, provide*=*]{babel}
+%\useshorthands*{"}
+%\defineshorthand{"=}{\nobreak-\hskip\z@skip}
+
+
+\RequirePackage{fontspec}
+\defaultfontfeatures{Ligatures=TeX}
+
+%\setmainfont{erewhon} 
+%\setromanfont{erewhon}
+%\RequirePackage{erewhon} 
+\setmainfont{Newton}[
+Extension = .otf,
+UprightFont = *-Regular,
+BoldFont = *-Bold,
+ItalicFont = *-Italic,
+BoldItalicFont = *-BoldItalic
+]
+\setromanfont{Newton}[
+  Extension = .otf,
+  UprightFont = *-Regular,
+  BoldFont = *-Bold,
+  ItalicFont = *-Italic,
+  BoldItalicFont = *-BoldItalic
+  ]
+
+\RequirePackage{FiraSans}
+\RequirePackage{FiraMono}
+
+\newfontfamily{\cyrillicfont}{Newton}[
+  Extension = .otf,
+  UprightFont = *-Regular,
+  BoldFont = *-Bold,
+  ItalicFont = *-Italic,
+  BoldItalicFont = *-BoldItalic
+  ]
+\newfontfamily{\cyrillicfontrm}{Newton}[
+  Extension = .otf,
+  UprightFont = *-Regular,
+  BoldFont = *-Bold,
+  ItalicFont = *-Italic,
+  BoldItalicFont = *-BoldItalic
+  ]
+\newfontfamily{\cyrillicfontsf}{FiraSans}
+
+\RequirePackage{microtype}
+\RequirePackage{indentfirst}
+
+%*******************
+% формулы
+%*******************
+%\RequirePackage{icomma} %запятая в десятичных дробях (зацикливается!)
+\RequirePackage{amsmath}
+\RequirePackage{mathtools}
+%\RequirePackage{amssymb} % символы есть в Erewhon
+\RequirePackage[math-style=ISO]{unicode-math}
+\setmathfont{Erewhon Math}[Scale=MatchLowercase, StylisticSet={4}]
+
+
+
+% уменьшить вертикальные отступы в выключных формулах
+\setlength{\abovedisplayskip}{3pt}
+\setlength{\belowdisplayskip}{3pt}
+
+
+\RequirePackage{siunitx}
+\sisetup{detect-all, range-units = single, range-phrase= \text{--}, per-mode=symbol, output-decimal-marker = {,}}
+
+% прямые начертания для констант, i и d
+\def\eu{\ensuremath{\mathrm{e}}}
+\def\iu{\ensuremath{\mathrm{i}}}
+\def\du{\ensuremath{\mathrm{d}}}
+
+
+%*******************
+% листинги
+%*******************
+%\RequirePackage{minted}
+%\setminted{
+%  baselinestretch=1.0,
+%   breaklines,
+%  fontsize=\footnotesize,
+%  frame=lines,
+%  framesep=2mm
+%}
+
+% убираем красные рамки (https://tex.stackexchange.com/questions/343494/minted-red-box-around-greek-characters)
+%\RequirePackage{etoolbox}
+%\RequirePackage{xpatch}
+
+%\AtBeginEnvironment{minted}{\dontdofcolorbox}
+%\def\dontdofcolorbox{\renewcommand\fcolorbox[4][]{##4}}
+%\xpatchcmd{\inputminted}{\minted@fvset}{\minted@fvset\dontdofcolorbox}{}{}
+%\xpatchcmd{\mintinline}{\minted@fvset}{\minted@fvset\dontdofcolorbox}{}{} % see https://tex.stackexchange.com/a/401250/
+
+%\renewcommand{\listingscaption}{Листинг}
+
+%*******************
+% графика
+%*******************
+
+% Пути к каталогам с изображениями
+\RequirePackage{graphicx} % Вставка картинок и дополнений
+\graphicspath{{images/}}
+
+
+
+%*******************
+% прочее
+%*******************
+\RequirePackage[nodisplayskipstretch]{setspace} % для управления межстрочным
+\def\setmainlinespread{\setstretch{1.1}}
+\RequirePackage{float} % Расширенное управление плавающими объектами
+\RequirePackage{placeins} % для \FloatBarrier 
+\RequirePackage{multicol} % Многоколоночная верстка
+\RequirePackage[labelformat=simple]{subcaption}
+\RequirePackage{lscape} % повернутые страницы
+
+% вставка пустой страницы
+\RequirePackage{afterpage}
+
+\newcommand\blankpage{%
+    \null
+    \thispagestyle{empty}%
+    %\addtocounter{page}{-1}%
+    \newpage}
+
+% сноска без маркера
+\newcommand\blfootnote[1]{%
+  \begingroup
+  \renewcommand\thefootnote{}\footnote{#1}%
+  \addtocounter{footnote}{-1}%
+  \endgroup
+}    
+
+%*******************
+% Списки
+%*******************
+\RequirePackage{enumitem}
+% Используем короткое тире (endash) для ненумерованных списков
+\renewcommand{\labelitemi}{\normalfont{--}}
+
+\setlist{nosep, nolistsep, topsep=0pt, labelindent=*,leftmargin=*}
+
+% счетчик кириллицей
+\AddEnumerateCounter{\asbuk}{\russian@alph}{щ}
+
+%*******************
+% стиль подписей к рисункам и таблицам
+%*******************
+\RequirePackage[labelfont={small,it}, textfont={small}, labelsep=period]{caption}
+\captionsetup{justification=raggedright, singlelinecheck=false}
+
+\renewcommand\thesubfigure{\asbuk{subfigure})}
+
+%*******************
+% таблицы
+%*******************
+
+\RequirePackage{tabularray}
+\NewTblrTheme{esgi}{
+    %\SetTblrStyle{firsthead}{font=\bfseries}
+    \SetTblrStyle{caption-tag}{font=\small\itshape}
+    \SetTblrStyle{caption-text}{font=\small}
+    \SetTblrStyle{contfoot-text}{font=\small}
+    \SetTblrStyle{conthead-text}{font=\small}
+}
+
+\DefTblrTemplate{caption-sep}{default}{.\enskip}
+\DefTblrTemplate{contfoot-text}{default}{Продолжение на следующей странице}
+\DefTblrTemplate{conthead-text}{default}{(Продолжение таблицы)}
+
+%*******************
+% Заголовки
+%*******************
+\RequirePackage[pagestyles,explicit]{titlesec}
+\RequirePackage{titletoc}
+
+% \titleformat{command}[shape]{format}{label}{sep}{before-code}[after-code]
+
+
+
+%\titleformat{\chapter}%
+%{\normalfont\HUGE\bfseries}%
+%{\MakeUppercase{#1}}%
+%{.5em}
+%{\vspace{.5ex}}
+%[\thispagestyle{empty}\afterpage{\blankpage}]
+\titleformat{\chapter}[block]
+  {\normalfont\Large\bfseries\filcenter\color{colorGray}}
+  {\parbox{0.7\textwidth}{\filcenter\MakeUppercase{#1}}}
+  {0pt}
+  {}
+  []
+
+\titleclass{\chapter}{straight}
+  
+\titleformat{\section}[block]
+{\setstretch{1.1}\normalfont\bfseries\filcenter\Large}
+{#1}
+{0em}
+{}
+[]
+    
+\titleformat{\subsection}[block]
+{\color{black}\raggedright\normalfont\normalsize\bfseries}
+{#1}
+{0pt}
+{}
+[]
+
+% https://tex.stackexchange.com/questions/706891/titlesec-explicit-stops-formatting-of-subsubsection
+\setcounter{secnumdepth}{3}
+
+\titleformat{\subsubsection}[block]
+{\color{Black}\raggedright\normalsize\bfseries}
+{#1}
+{0pt}
+{}
+[]
+
+\titleformat{name=\subsubsection,numberless}[block]
+{\color{Black}\raggedright\normalsize\bfseries}
+{#1}
+{0pt}
+{}
+[]
+
+\titlespacing*{\section}
+    {0pt} % left
+    {3mm} % before
+    {1em} % after
+    
+% titlesec добавляет много сверху, убираем
+\titlespacing*{\chapter}
+    {0pt} % left
+    {-0.5in} % before
+    {0pt} % after
+    
+\titlespacing*{\subsection}
+{0pt} % left
+{4pt} % before
+{0pt} % after
+
+\titlespacing*{\subsubsection}
+{0pt} % left
+{8pt} % before
+{4pt} % after
+
+%*******************
+% Стили в оглавлении
+%*******************
+
+\titlecontents{chapter}
+[0pt]
+{\addvspace{1em}\filcenter}
+{\bfseries}
+{\bfseries}%\hspace*{-9mm}
+{}[\medskip]
+
+
+\titlecontents{section}
+[9mm]
+{}
+{\small}
+{}%\hspace*{-9mm}
+{\titlerule*[0.3pc]{.}\contentspage}[\medskip]
+
+% Запрет переносов
+% см. https://tex.stackexchange.com/questions/430173/disable-hyphenation-in-toc
+% не работает для частичных ToC
+\renewcommand{\@tocrmarg}{2.55em plus1fil}
+
+% Для главы убрать верхний колонтитул
+%\assignpagestyle{\chapter}{mainch}
+
+%*******************
+% колонтитулы
+%*******************
+
+
+\newpagestyle{main}[\small]{
+    %\setheadrule{0.6pt}%
+    \sethead[]%                                                 even-left
+            [\color{colorGray}\itshape \chaptertitle]%          even-center
+            []%                                                 even-right
+            {}%                                                 odd-left
+            {\color{colorGray} \itshape \esgiAuthors}%                   odd-center
+            {}\headrule
+    \setfoot[]%                                                 even-left
+            [{\begin{tabular}{c@{}}
+              \color{colorGray} \itshape \esgiName~Т.~\esgiVol~№~\esgiNum~(\esgiYear)\\
+              \color{colorGray} \itshape \esgiNameEn~\esgiVol{}.\esgiNum~(\esgiYear)
+            \end{tabular}}
+            ]%                even-center
+            [\color{colorGray} \thepage]%                                                 even-right
+            {\color{colorGray} \thepage}%                                                 odd-left
+            {{\begin{tabular}{c@{}}
+              \color{colorGray} \itshape \esgiName~Т.~\esgiVol~№~\esgiNum~(\esgiYear)\\
+              \color{colorGray} \itshape \esgiNameEn~\esgiVol{}.\esgiNum~(\esgiYear)
+            \end{tabular}}}%                   odd-center
+            {}\footrule %                        odd-right
+            \renewcommand{\makeheadrule}{\color{colorGray} \rule[-.3\baselineskip]{\linewidth}{0.6pt}}
+            \renewcommand{\makefootrule}{\color{colorGray} \rule[\baselineskip]{\linewidth}{0.6pt}}
+  }
+
+\newpagestyle{mainch}[\small]{
+    %\setheadrule{0.6pt}%
+    \sethead[]%                                                 even-left
+            []%                                                 even-center
+            []%                                                 even-right
+            {}%                                                 odd-left
+            {}%                                                 odd-center
+            {}\headrule
+    \setfoot[]%                                                 even-left
+            [{\begin{tabular}{c@{}}
+              \color{colorGray} \itshape \esgiName~Т.~\esgiVol~№~\esgiNum~(\esgiYear)\\
+              \color{colorGray} \itshape \esgiNameEn~\esgiVol{}.\esgiNum~(\esgiYear)
+            \end{tabular}}]%                even-center
+            [\color{colorGray} \thepage]%                                                 even-right
+            {\color{colorGray} \thepage}%                                                 odd-left
+            {{\begin{tabular}{c@{}}
+              \color{colorGray} \itshape \esgiName~Т.~\esgiVol~№~\esgiNum~(\esgiYear)\\
+              \color{colorGray} \itshape \esgiNameEn~\esgiVol{}.\esgiNum~(\esgiYear)
+            \end{tabular}}}%                   odd-center
+            {}\footrule %                        odd-right
+            \renewcommand{\makeheadrule}{\color{colorGray} \rule[-.3\baselineskip]{\linewidth}{0.6pt}}
+            \renewcommand{\makefootrule}{\color{colorGray} \rule[\baselineskip]{\linewidth}{0.6pt}}
+  }
+
+\newpagestyle{auth}[\small]{
+    %\setheadrule{0.6pt}%
+    \sethead[]%                                                 even-left
+            [К сведению авторов]%                               even-center
+            []%                                                 even-right
+            {}%                                                 odd-left
+            {К сведению авторов}%                               odd-center
+            {}\headrule
+    \setfoot[]%                                                 even-left
+            [{\begin{tabular}{c@{}}
+              \color{colorGray} \itshape \esgiName~Т.~\esgiVol~№~\esgiNum~(\esgiYear)\\
+              \color{colorGray} \itshape \esgiNameEn~\esgiVol{}.\esgiNum~(\esgiYear)
+            \end{tabular}}]%                even-center
+            [\color{colorGray} \thepage]%                                                 even-right
+            {\color{colorGray} \thepage}%                                                 odd-left
+            {{\begin{tabular}{c@{}}
+              \color{colorGray} \itshape \esgiName~Т.~\esgiVol~№~\esgiNum~(\esgiYear)\\
+              \color{colorGray} \itshape \esgiNameEn~\esgiVol{}.\esgiNum~(\esgiYear)
+            \end{tabular}}}%                   odd-center
+            {}\footrule %                        odd-right
+            \renewcommand{\makeheadrule}{\color{colorGray} \rule[-.3\baselineskip]{\linewidth}{0.6pt}}
+            \renewcommand{\makefootrule}{\color{colorGray} \rule[\baselineskip]{\linewidth}{0.6pt}}
+  }
+
+
+%*********************
+% Библиография
+%*********************
+\RequirePackage[%
+backend=biber, 
+style=mla,
+sortcites=true,
+language=auto,
+autolang=other,
+]{biblatex}
+
+\RequirePackage{csquotes}
+
+
+% Вначале выводим русскоязычныке источники по langid
+\DeclareSourcemap{
+  \maps[datatype=bibtex]{
+    \map{
+      \step[fieldset=langid, fieldvalue={tempruorder}]
+    }
+    \map[overwrite]{
+      \step[fieldsource=langid, match=russian, final]
+      \step[fieldsource=presort, match=\regexp{(.+)}, replace=\regexp{aa$1}]  %$
+    }
+    \map{
+      \step[fieldsource=langid, match=russian, final]
+      \step[fieldset=presort, fieldvalue={az}]
+    }
+    \map[overwrite]{
+      \step[fieldsource=langid, notmatch=russian, final]
+      \step[fieldsource=presort, match=\regexp{(.+)}, replace=\regexp{za$1}]  %$
+    }
+    \map{
+      \step[fieldsource=langid, notmatch=russian, final]
+    }
+    \map{
+      \step[fieldsource=langid, match={tempruorder}, final]
+      \step[fieldset=langid, null]
+    }
+  }
+}
+
+% Перенос длинных URL в библиографии
+\setcounter{biburllcpenalty}{7000}
+\setcounter{biburlucpenalty}{8000}
+
+% Запрет кодирования URL
+\DeclareFieldFormat{url}{%
+    \mkbibacro{URL}\addcolon\space
+    \href{#1}{\nolinkurl{\thefield{urlraw}}}}
+
+
+\renewcommand*{\bibfont}{\small}
+
+\defbibheading{esgiBibheading}{\begin{center}\normalsize \bfseries Список литературы и источников\end{center}}
+\defbibheading{esgiBibheadingEn}{\begin{center}\normalsize \bfseries References\end{center}}
+
+% цвет квадратных скобок в биб ссылках, сами ссылки — см. citecolor в hyperref
+\AtEveryCite{\color{Black}}
+
+%*************
+% нумерация
+%*************
+\RequirePackage{chngcntr}
+\counterwithout{equation}{chapter}
+\counterwithout{figure}{chapter}
+\counterwithout{table}{chapter}
+
+%*******************
+% висяки и переносы
+%*******************
+\hyphenpenalty=750 % default = 50
+%\RequirePackage{lua-widow-control}
+%\lwcsetup{balanced}
+
+%\clubpenalty=8000
+%\widowpenalty=8000
+%подавление переносов между страницами
+\brokenpenalty=8000\relax
+
+% автоматизация запрета на отрыв предлогов
+\RequirePackage{luavlna}
+\singlechars{russian}{ВСАКИОУвсакиоу}
+
+
+
+%*******************
+% hyperref
+%*******************
+
+
+\RequirePackage[final,
+pdfauthor={\esgiName},
+pdftitle={\esgiYear{} №~\esgiMonth{} (\esgiNum)}, luatex]{hyperref}
+
+
+\hypersetup{
+    unicode=true,
+    colorlinks=true,
+    linkcolor=RoyalPurple,
+    citecolor=RoyalPurple,
+    filecolor=RoyalPurple,
+    urlcolor=RoyalPurple
+}
+
+\urlstyle{rm}
+
+%*******************
+% Окружения и макросы
+%*******************
+
+\RequirePackage{ifthen}
+
+
+
+% список ключевых слов
+\newcommand{\esgiKwords}[1]
+    {
+     \begingroup
+         \setstretch{1.0}
+         \begin{flushleft}
+         \noindent {\bfseries\small Ключевые слова:}
+         \small #1\par
+         \end{flushleft}
+     \endgroup
+     \write\myoutput{Keywords\thesection: "#1"}
+    }
+
+\newcommand{\esgiKwordsEn}[1]
+    {
+     \begingroup
+         \setstretch{1.0}
+         \begin{flushleft}
+         \noindent {\bfseries\small Keywords:}
+         \small #1\par
+         \end{flushleft}
+     \endgroup
+    }
+
+\newcommand{\esgiAbstract}[1]{%
+    {
+     \begingroup
+         \setstretch{1.0}
+         \noindent {\bfseries\small Аннотация.}
+         \small #1\par
+     \endgroup
+     \write\myoutput{Abstract\thesection: "#1"}
+    }
+}
+
+\newcommand{\esgiAbstractEn}[1]{%
+    {
+     \begingroup
+         \setstretch{1.0}
+         \noindent {\bfseries\small Abstract.}
+         \small #1\par
+     \endgroup
+    }
+}
+
+\newcommand{\esgiCite}
+    {
+     \begingroup
+         \setstretch{1.0}
+         \begin{flushleft}
+         \noindent {\bfseries\small Для цитирования:}
+         \small
+            \esgiAuthors
+            \esgiSecName
+            // \esgiName . \esgiYear . №~\esgiNum~(\esgiNumT ). С.~\esgiSecFP --\esgiSecLP .
+            \url{https://doi.org/\esgiDOIPrefix \esgiYear -\esgiNum -\esgiSecFP -\esgiSecLP}
+            \href{https://elibrary.ru/\esgiEDN}{EDN: \esgiEDN}
+         \end{flushleft}
+     \endgroup
+    }
+
+\newcommand{\esgiCiteEn}
+    {
+     \begingroup
+         \setstretch{1.0}
+         \begin{flushleft}
+         \noindent {\bfseries\small For citation}:
+         \small
+            \esgiAuthorsEn
+            ``\esgiSecNameEn''
+            // \textit{\esgiNameEn} \esgiNum~(\esgiNumT ) (\esgiYear ): \esgiSecFP --\esgiSecLP . (In Russian).
+            \url{https://doi.org/\esgiDOIPrefix \esgiYear -\esgiNum -\esgiSecFP -\esgiSecLP}
+            \href{https://elibrary.ru/\esgiEDN}{EDN: \esgiEDN}
+         \end{flushleft}
+     \endgroup
+    }
+
+\newenvironment{esgiArticle}
+{\begin{refsection}
+\vspace{2em}}
+{
+\FloatBarrier
+%\esgiBibSpace
+\begingroup
+\setstretch{1.0}
+\printbibliography[heading=esgiBibheading]
+\endgroup
+\end{refsection}
+\esgiFooterWrite}
+
+
+% глава (рубрика)
+\newcommand{\esgiChapter}[1]{%
+    \thispagestyle{mainch}
+    \chapter{#1}
+    \write\myoutput{Chapter\thechapter: "#1"}
+}
+
+% анг. секция
+\newcommand\esgiChapterEn[1]{
+\begin{center}
+  \parbox{0.7\textwidth}{\normalfont\Large\bfseries\color{colorGray}\begin{center}\MakeUppercase{#1}\end{center}}
+\end{center}  
+}
+
+
+% секция (статья)
+\newcommand\esgiSection[2]{%
+    \section[\bfseries#1~{\normalfont #2}]{#2}
+    \setcounter{figure}{0}
+    \setcounter{table}{0}
+    \setcounter{equation}{0}
+    \setcounter{footnote}{0}
+    \write\myoutput{Authors\thesection: "#1"}
+    \write\myoutput{Article\thesection: "#2"}
+    \write\myoutput{First\thesection: \thepage}
+}
+
+
+% Авторы со сносками для шапки
+\newcommand{\esgiAuthorsHat}[1]{%
+    \begin{center}
+        {\bfseries\itshape #1}
+    \end{center}
+}
+
+\newcommand{\esgiAddrHat}[1]{%
+    \begin{flushleft}
+        {\itshape #1}
+    \end{flushleft}
+}
+
+\newcommand{\esgiEmail}[1]{%
+    \begin{flushleft}
+        {\itshape \textsuperscript{1}  \href{mailto:#1}{#1}}
+    \end{flushleft}
+}
+
+
+% шапка
+\newcommand{\esgiHeader}[1]{%
+    \begin{flushleft}
+        \footnotesize\bfseries
+        \esgiName .\esgiYear . №~\esgiNum~(\esgiNumT ). С.~\esgiSecFP --\esgiSecLP .\\
+        \esgiNameEn .\esgiYear . No~\esgiNum~(\esgiNumT ). P.~\esgiSecFP --\esgiSecLP .\\
+        Научная статья
+
+        \vspace{1em}
+
+        УДК #1\\
+        DOI: \href{https://doi.org/\esgiDOIPrefix \esgiYear -\esgiNum -\esgiSecFP -\esgiSecLP}{\esgiDOIPrefix \esgiYear -\esgiNum -\esgiSecFP -\esgiSecLP}\\
+        EDN: \href{https://elibrary.ru/\esgiEDN}{\esgiEDN}
+    \end{flushleft}
+}
+
+% 1 = дата поступления в редакцию, 2 = дата рецензирования
+\newcommand{\esgiDates}[2]{%
+    \vspace{1em}
+    \begin{flushleft}
+      \small
+      Статья поступила в редакцию #1, одобрена после рецензирования #2.
+
+      \foreignlanguage{english}{The article was submitted #1, approved after reviewing #2.} \par
+    \end{flushleft}
+}
+
+% для мелких изображений в multicol
+\newenvironment{Figure}
+{\par\medskip\noindent\minipage{\linewidth}}
+{\endminipage\par\medskip}
+
+% отступ перед Биб. списком
+\newcommand{\esgiBibSpace}{%
+\vspace{1em}
+}
+
+
+% Оглавление русск. части
+\newcommand{\esgiPrintRuCont}{%
+    \begin{center}
+      {\Large\bfseries\color{colorGray}\MakeUppercase{Содержание}\par}
+    \end{center}
+    %\hyphenchar\font=-1 % disable hyphen
+    % \printcontents[<name>]{<prefix>}{<нач уровень>}[<глубина>]{<toc-code>}
+    {\hypersetup{linkcolor=black}\printcontents[partru]{ }{0}[1]
+    {}}
+    %\hyphenchar\font=`\- % reset hyphen
+    \clearpage
+}
+
+% Оглавление англ. части
+\newcommand{\esgiPrintEnCont}{%
+    \pagestyle{empty}
+    {\hspace{5mm}\raggedright\Large\bfseries\MakeUppercase{Contents}\par}
+    %\hyphenchar\font=-1 % disable hyphen
+    {\hypersetup{linkcolor=black}\printcontents[parten]{ }{0}[1]
+    {}}
+    %\hyphenchar\font=`\- % reset hyphen
+}
+
+
+% удерживать pagestyle в Оглавлении
+\AtBeginDocument{\addtocontents{toc}{\protect\thispagestyle{empty}}}
+
+% логировать выходные данные
+\AtBeginDocument{
+    \write\myoutput{Journal: \esgiName}
+    \write\myoutput{Month: \esgiMonth}
+    \write\myoutput{Num: \esgiNum}
+    \write\myoutput{Year: \esgiYear}
+}
+
+\newcommand{\esgiFooterWrite}{%
+    \immediate\write\myoutput{Last\thesection: \thepage}
+}
+
+% блок с предотвращением разрыва страниц
+\newenvironment{glued}
+  {\par\nobreak\vfil\penalty0\vfilneg
+   \vtop\bgroup}
+  {\par\xdef\tpd{\the\prevdepth}\egroup
+   \prevdepth=\tpd}
