@@ -52,6 +52,7 @@
 
 \newcommand{\esgiName}{Экономические и социально-гуманитарные исследования}
 \newcommand{\esgiNameEn}{Economic and Social Research}
+\newcommand{\esgiNameTransl}{Ekonomicheskie i sotsial’no-gumanitarnye issledovaniya}
 \newcommand{\esgiDOIPrefix}{10.24151/2409-1073}
 \newcommand{\esgiMonth}{Апрель}
 
@@ -454,86 +455,7 @@ BoldItalicFont = *-BoldItalic
   }
 
 
-%*********************
-% Библиография
-%*********************
-\RequirePackage[%
-backend=biber, 
-maxbibnames=3,
-maxnames=3,
-minnames=3,
-dropdates = false, 
-movenames=false,
-otherlangs=true,
-autolang=other,
-sorting=nyt,
-bibstyle= gost-authoryear,
-citestyle=gost-authoryear,
-doi  = true,
-url = true,
-isbn = false,
-uniquename=false,
-uniquelist=false,
-ibidtracker=false,   %отключение ``там же''
-sortcites=true,
-maxcitenames=2,
-mincitenames=1,
-language=auto,
-]{biblatex}
 
-\RequirePackage{csquotes}
-
-
-% Вначале выводим русскоязычныке источники по langid
-\DeclareSourcemap{
-  \maps[datatype=bibtex]{
-    \map{
-      \step[fieldset=langid, fieldvalue={tempruorder}]
-    }
-    \map[overwrite]{
-      \step[fieldsource=langid, match=russian, final]
-      \step[fieldsource=presort, match=\regexp{(.+)}, replace=\regexp{aa$1}]  %$
-    }
-    \map{
-      \step[fieldsource=langid, match=russian, final]
-      \step[fieldset=presort, fieldvalue={az}]
-    }
-    \map[overwrite]{
-      \step[fieldsource=langid, notmatch=russian, final]
-      \step[fieldsource=presort, match=\regexp{(.+)}, replace=\regexp{za$1}]  %$
-    }
-    \map{
-      \step[fieldsource=langid, notmatch=russian, final]
-    }
-    \map{
-      \step[fieldsource=langid, match={tempruorder}, final]
-      \step[fieldset=langid, null]
-    }
-  }
-}
-
-% Перенос длинных URL в библиографии
-\setcounter{biburllcpenalty}{7000}
-\setcounter{biburlucpenalty}{8000}
-
-% Запрет кодирования URL
-\DeclareFieldFormat{url}{%
-    \mkbibacro{URL}\addcolon\space
-    \href{#1}{\nolinkurl{\thefield{urlraw}}}}
-
-% Нумерация библиографии с точкой
-\renewcommand\@biblabel[1]{#1.}
-
-% шрифт в библиографии
-%\AtBeginBibliography{\fontsize{9pt}{11.5pt}\selectfont}
-
-\renewcommand*{\bibfont}{\small}
-
-\defbibheading{esgiBibheading}{\begin{center}\normalsize \bfseries Список литературы и источников\end{center}}
-\defbibheading{esgiBibheadingEn}{\begin{center}\normalsize \bfseries References\end{center}}
-
-% цвет квадратных скобок в биб ссылках, сами ссылки — см. citecolor в hyperref
-\AtEveryCite{\color{Black}}
 
 %*************
 % нумерация
@@ -574,11 +496,13 @@ pdftitle={\esgiYear{} №~\esgiMonth{} (\esgiNum)}, luatex]{hyperref}
 \hypersetup{
     unicode=true,
     colorlinks=true,
-    linkcolor=RoyalPurple,
-    citecolor=RoyalPurple,
-    filecolor=RoyalPurple,
-    urlcolor=RoyalPurple
+    linkcolor=black,
+    citecolor=black,
+    filecolor=black,
+    urlcolor=black
 }
+
+\PassOptionsToPackage{hyphens}{url}\usepackage{hyperref}
 
 \urlstyle{rm}
 
@@ -644,8 +568,8 @@ pdftitle={\esgiYear{} №~\esgiMonth{} (\esgiNum)}, luatex]{hyperref}
          \small
             \esgiAuthors
             \esgiSecName
-            // \esgiName . \esgiYear . №~\esgiNum~(\esgiNumT ). С.~\esgiSecFP --\esgiSecLP .
-            \url{https://doi.org/\esgiDOIPrefix \esgiYear -\esgiNum -\esgiSecFP -\esgiSecLP}
+            // \textit{\esgiName} \esgiVol .\esgiNum{} (\esgiYear ): \esgiSecFP --\esgiSecLP .
+            \url{https://doi.org/\esgiDOIPrefix -\esgiYear -\esgiVol -\esgiNum -\esgiSecFP -\esgiSecLP}
             \href{https://elibrary.ru/\esgiEDN}{EDN: \esgiEDN}
          \end{flushleft}
      \endgroup
@@ -660,9 +584,9 @@ pdftitle={\esgiYear{} №~\esgiMonth{} (\esgiNum)}, luatex]{hyperref}
          \small
             \esgiAuthorsEn
             ``\esgiSecNameEn''
-            // \textit{\esgiNameEn} \esgiNum~(\esgiNumT ) (\esgiYear ): \esgiSecFP --\esgiSecLP . (In Russian).
-            \url{https://doi.org/\esgiDOIPrefix \esgiYear -\esgiNum -\esgiSecFP -\esgiSecLP}
-            \href{https://elibrary.ru/\esgiEDN}{EDN: \esgiEDN}
+            // \textit{\esgiNameTransl = \esgiNameEn} \esgiVol .\esgiNum{} (\esgiYear ): \esgiSecFP --\esgiSecLP . (In Russian).
+            \url{https://doi.org/\esgiDOIPrefix -\esgiYear -\esgiVol -\esgiNum -\esgiSecFP -\esgiSecLP}
+            %\href{https://elibrary.ru/\esgiEDN}{EDN: \esgiEDN}
          \end{flushleft}
      \endgroup
     }
@@ -733,14 +657,14 @@ pdftitle={\esgiYear{} №~\esgiMonth{} (\esgiNum)}, luatex]{hyperref}
 \newcommand{\esgiHeader}[1]{%
     \begin{flushleft}
         \footnotesize\bfseries
-        \esgiName .\esgiYear . №~\esgiNum~(\esgiNumT ). С.~\esgiSecFP --\esgiSecLP .\\
-        \esgiNameEn .\esgiYear . No~\esgiNum~(\esgiNumT ). P.~\esgiSecFP --\esgiSecLP .\\
+        \esgiName .\esgiYear . Т.~\esgiVol .~№~\esgiNum . С.~\esgiSecFP --\esgiSecLP .\\
+        \esgiNameEn .\esgiYear . Vol.~\esgiVol . No.~\esgiNum . P.~\esgiSecFP --\esgiSecLP .\\
         Научная статья
 
         \vspace{1em}
 
         УДК #1\\
-        DOI: \href{https://doi.org/\esgiDOIPrefix \esgiYear -\esgiNum -\esgiSecFP -\esgiSecLP}{\esgiDOIPrefix \esgiYear -\esgiNum -\esgiSecFP -\esgiSecLP}\\
+        DOI: \href{https://doi.org/\esgiDOIPrefix -\esgiYear -\esgiVol -\esgiNum -\esgiSecFP -\esgiSecLP}{\esgiDOIPrefix -\esgiYear -\esgiVol -\esgiNum -\esgiSecFP -\esgiSecLP}\\
         EDN: \href{https://elibrary.ru/\esgiEDN}{\esgiEDN}
     \end{flushleft}
 }

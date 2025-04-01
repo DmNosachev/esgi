@@ -1,0 +1,80 @@
+%*********************
+% Библиография
+%*********************
+\RequirePackage[%
+backend=biber, 
+maxbibnames=3,
+maxnames=3,
+minnames=3,
+dropdates = false, 
+movenames=false,
+otherlangs=true,
+autolang=other,
+sorting=nyt,
+bibstyle= gost-authoryear,
+citestyle=gost-authoryear,
+doi  = true,
+url = true,
+isbn = false,
+uniquename=false,
+uniquelist=false,
+ibidtracker=false,   %отключение ``там же''
+sortcites=true,
+maxcitenames=2,
+mincitenames=1,
+language=auto,
+]{biblatex}
+
+\RequirePackage{csquotes}
+
+
+% Вначале выводим русскоязычныке источники по langid
+\DeclareSourcemap{
+  \maps[datatype=bibtex]{
+    \map{
+      \step[fieldset=langid, fieldvalue={tempruorder}]
+    }
+    \map[overwrite]{
+      \step[fieldsource=langid, match=russian, final]
+      \step[fieldsource=presort, match=\regexp{(.+)}, replace=\regexp{aa$1}]  %$
+    }
+    \map{
+      \step[fieldsource=langid, match=russian, final]
+      \step[fieldset=presort, fieldvalue={az}]
+    }
+    \map[overwrite]{
+      \step[fieldsource=langid, notmatch=russian, final]
+      \step[fieldsource=presort, match=\regexp{(.+)}, replace=\regexp{za$1}]  %$
+    }
+    \map{
+      \step[fieldsource=langid, notmatch=russian, final]
+    }
+    \map{
+      \step[fieldsource=langid, match={tempruorder}, final]
+      \step[fieldset=langid, null]
+    }
+  }
+}
+
+% Перенос длинных URL в библиографии
+\setcounter{biburllcpenalty}{7000}
+\setcounter{biburlucpenalty}{8000}
+
+% Запрет кодирования URL
+\DeclareFieldFormat{url}{%
+    \mkbibacro{URL}\addcolon\space
+    \href{#1}{\nolinkurl{\thefield{urlraw}}}}
+
+% Нумерация библиографии с точкой
+\renewcommand\@biblabel[1]{#1.}
+
+% шрифт в библиографии
+%\AtBeginBibliography{\fontsize{9pt}{11.5pt}\selectfont}
+
+\renewcommand*{\bibfont}{\small}
+
+\defbibheading{esgiBibheading}{\begin{center}\normalsize \bfseries Список литературы и источников\end{center}}
+\defbibheading{esgiBibheadingEn}{\begin{center}\normalsize \bfseries References\end{center}}
+
+% цвет квадратных скобок в биб ссылках, сами ссылки — см. citecolor в hyperref
+\AtEveryCite{\color{Black}}
