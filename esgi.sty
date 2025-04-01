@@ -70,6 +70,7 @@
 
 \definecolor{colorMain}{HTML}{00ADEE}
 \definecolor{colorGray}{HTML}{505050}
+\definecolor{colorURL}{HTML}{0b0147}
 
 % таблицы серый фон
 \definecolor{colorTbGray}{HTML}{E6E6E6}
@@ -91,7 +92,7 @@
             paperwidth=205mm,
             top=24mm,
             bottom=30mm,
-            left=20mm,
+            left=30mm,
             right=20mm]{geometry}
 
 
@@ -144,6 +145,8 @@ BoldItalicFont = *-BoldItalic
   BoldItalicFont = *-BoldItalic
   ]
 \newfontfamily{\cyrillicfontsf}{FiraSans}
+
+\RequirePackage{marvosym} % символ конверта
 
 \RequirePackage{microtype}
 \RequirePackage{indentfirst}
@@ -251,7 +254,10 @@ BoldItalicFont = *-BoldItalic
 % стиль подписей к рисункам и таблицам
 %*******************
 \RequirePackage[labelfont={small,it}, textfont={small}, labelsep=period]{caption}
+\RequirePackage[lang=english]{bicaption} % двойные подписи для объектов
 \captionsetup{justification=raggedright, singlelinecheck=false}
+%\captionsetup{format=plain, justification=justified, font=small, labelfont=it}
+  
 
 \renewcommand\thesubfigure{\asbuk{subfigure})}
 
@@ -266,6 +272,18 @@ BoldItalicFont = *-BoldItalic
     \SetTblrStyle{caption-text}{font=\small}
     \SetTblrStyle{contfoot-text}{font=\small}
     \SetTblrStyle{conthead-text}{font=\small}
+    \SetTblrStyle{caption}{hang=0pt}
+    \SetTblrStyle{head}{hang=0pt}
+    \SetTblrStyle{conthead}{hang=0pt}
+}
+
+\DefTblrTemplate{capcont}{default}{%
+  \par
+  \UseTblrTemplate {caption-tag}{default}%
+  \UseTblrTemplate {caption-sep}{default}%
+  \UseTblrTemplate {caption-text}{default}
+  \UseTblrTemplate {conthead-text}{default}
+  \par
 }
 
 \DefTblrTemplate{caption-sep}{default}{.\enskip}
@@ -490,16 +508,16 @@ BoldItalicFont = *-BoldItalic
 
 \RequirePackage[final,
 pdfauthor={\esgiName},
-pdftitle={\esgiYear{} №~\esgiMonth{} (\esgiNum)}, luatex]{hyperref}
+pdftitle={\esgiYear{} Т. \esgiVol{}. № \esgiNum{}.}, luatex]{hyperref}
 
 
 \hypersetup{
     unicode=true,
     colorlinks=true,
-    linkcolor=black,
-    citecolor=black,
-    filecolor=black,
-    urlcolor=black
+    linkcolor=colorURL,
+    citecolor=colorURL,
+    filecolor=colorURL,
+    urlcolor=colorURL
 }
 
 \PassOptionsToPackage{hyphens}{url}\usepackage{hyperref}
@@ -567,8 +585,8 @@ pdftitle={\esgiYear{} №~\esgiMonth{} (\esgiNum)}, luatex]{hyperref}
          \noindent {\bfseries\small Для цитирования:}
          \small
             \esgiAuthors
-            \esgiSecName
-            // \textit{\esgiName} \esgiVol .\esgiNum{} (\esgiYear ): \esgiSecFP --\esgiSecLP .
+            «\esgiSecName».
+             \textit{\esgiName} \esgiVol .\esgiNum{} (\esgiYear ): \esgiSecFP --\esgiSecLP .
             \url{https://doi.org/\esgiDOIPrefix -\esgiYear -\esgiVol -\esgiNum -\esgiSecFP -\esgiSecLP}
             \href{https://elibrary.ru/\esgiEDN}{EDN: \esgiEDN}
          \end{flushleft}
@@ -583,8 +601,8 @@ pdftitle={\esgiYear{} №~\esgiMonth{} (\esgiNum)}, luatex]{hyperref}
          \noindent {\bfseries\small For citation}:
          \small
             \esgiAuthorsEn
-            ``\esgiSecNameEn''
-            // \textit{\esgiNameTransl = \esgiNameEn} \esgiVol .\esgiNum{} (\esgiYear ): \esgiSecFP --\esgiSecLP . (In Russian).
+            ``\esgiSecNameEn''.
+             \textit{\esgiNameTransl = \esgiNameEn} \esgiVol .\esgiNum{} (\esgiYear ): \esgiSecFP --\esgiSecLP . (In Russian).
             \url{https://doi.org/\esgiDOIPrefix -\esgiYear -\esgiVol -\esgiNum -\esgiSecFP -\esgiSecLP}
             %\href{https://elibrary.ru/\esgiEDN}{EDN: \esgiEDN}
          \end{flushleft}
@@ -603,6 +621,18 @@ pdftitle={\esgiYear{} №~\esgiMonth{} (\esgiNum)}, luatex]{hyperref}
 \endgroup
 \end{refsection}
 \esgiFooterWrite}
+
+% Литература
+
+\newenvironment{esgiBib}
+{
+  \vspace{2em}  
+\subsection{Список литературы и источников / References}
+
+\small 
+\begin{itemize}[label={}, itemsep=3pt, itemindent=-15pt]}
+{\end{itemize}
+\normalsize}
 
 
 % глава (рубрика)
@@ -648,7 +678,7 @@ pdftitle={\esgiYear{} №~\esgiMonth{} (\esgiNum)}, luatex]{hyperref}
 
 \newcommand{\esgiEmail}[1]{%
     \begin{flushleft}
-        {\itshape \textsuperscript{1}  \href{mailto:#1}{#1}}
+        {\itshape \textsuperscript{\Letter}  \href{mailto:#1}{#1}}
     \end{flushleft}
 }
 
