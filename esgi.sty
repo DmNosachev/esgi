@@ -213,6 +213,9 @@ BoldItalicFont = *-BoldItalic
 %*******************
 % прочее
 %*******************
+
+\RequirePackage{titlecaps} % для Title Case в цитировании
+\Addlcwords{for a is but and with of in as the etc on to if an}
 \RequirePackage[nodisplayskipstretch]{setspace} % для управления межстрочным
 \def\setmainlinespread{\setstretch{1.1}}
 \RequirePackage{float} % Расширенное управление плавающими объектами
@@ -505,6 +508,7 @@ BoldItalicFont = *-BoldItalic
 % hyperref
 %*******************
 
+\PassOptionsToPackage{hyphens}{url}
 
 \RequirePackage[final,
 pdfauthor={\esgiName},
@@ -520,7 +524,7 @@ pdftitle={\esgiYear{} Т. \esgiVol{}. № \esgiNum{}.}, luatex]{hyperref}
     urlcolor=colorURL
 }
 
-\PassOptionsToPackage{hyphens}{url}\usepackage{hyperref}
+
 
 \urlstyle{rm}
 
@@ -601,8 +605,8 @@ pdftitle={\esgiYear{} Т. \esgiVol{}. № \esgiNum{}.}, luatex]{hyperref}
          \noindent {\bfseries\small For citation}:
          \small
             \esgiAuthorsEn
-            ``\esgiSecNameEn''.
-             \textit{\esgiNameTransl = \esgiNameEn} \esgiVol .\esgiNum{} (\esgiYear ): \esgiSecFP --\esgiSecLP . (In Russian).
+            ``\titlecap{\esgiSecNameEn}''.
+             \textit{\esgiNameTransl{} = \esgiNameEn} \esgiVol .\esgiNum{} (\esgiYear ): \esgiSecFP --\esgiSecLP . (In Russian).
             \url{https://doi.org/\esgiDOIPrefix -\esgiYear -\esgiVol -\esgiNum -\esgiSecFP -\esgiSecLP}
             %\href{https://elibrary.ru/\esgiEDN}{EDN: \esgiEDN}
          \end{flushleft}
@@ -683,6 +687,28 @@ pdftitle={\esgiYear{} Т. \esgiVol{}. № \esgiNum{}.}, luatex]{hyperref}
     \write\myoutput{First\thesection: \thepage}
 }
 
+% 1= авторы, 2=заголовок в ToC, 3=заголовок отображаемый
+\newcommand\esgiSectionLB[3]{%
+\renewcommand*{\thefootnote}{\fnsymbol{footnote}}%
+\begingroup
+\begin{center}
+  \setstretch{1.1} \bfseries \Large
+  #3
+\end{center}
+\endgroup
+
+    \phantomsection
+    \addcontentsline{toc}{section}{\textbf{#1}~ #2}
+    \renewcommand*{\thefootnote}{\arabic{footnote}}
+    \setcounter{figure}{0}
+    \setcounter{table}{0}
+    \setcounter{equation}{0}
+    \setcounter{footnote}{0}
+    \write\myoutput{Authors\thesection: "#1"}
+    \write\myoutput{Article\thesection: "#2"}
+    \write\myoutput{First\thesection: \thepage}
+}
+
 
 % Авторы со сносками для шапки
 \newcommand{\esgiAuthorsHat}[1]{%
@@ -697,11 +723,18 @@ pdftitle={\esgiYear{} Т. \esgiVol{}. № \esgiNum{}.}, luatex]{hyperref}
     \end{flushleft}
 }
 
-\newcommand{\esgiEmail}[1]{%
+\DeclareDocumentCommand \esgiEmail {s m } {%
+  \IfBooleanTF #1 {%
     \begin{flushleft}
-        {\itshape \textsuperscript{\Letter}  \href{mailto:#1}{#1}}
+      {\itshape \href{mailto:#2}{#2}}
     \end{flushleft}
+  }{%
+    \begin{flushleft}
+      {\itshape \textsuperscript{\Letter}  \href{mailto:#2}{#2}}
+    \end{flushleft}
+  }
 }
+
 
 
 % шапка
