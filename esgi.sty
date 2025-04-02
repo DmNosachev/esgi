@@ -662,6 +662,27 @@ pdftitle={\esgiYear{} Т. \esgiVol{}. № \esgiNum{}.}, luatex]{hyperref}
     \write\myoutput{First\thesection: \thepage}
 }
 
+\newcommand\esgiSectionFn[3]{%
+\renewcommand*{\thefootnote}{\fnsymbol{footnote}}%
+\begingroup
+\begin{center}
+  \setstretch{1.1} \bfseries \Large
+  #2\footnote[1]{#3}
+\end{center}
+\endgroup
+
+    \phantomsection
+    \addcontentsline{toc}{section}{\textbf{#1}~ #2}
+    \renewcommand*{\thefootnote}{\arabic{footnote}}
+    \setcounter{figure}{0}
+    \setcounter{table}{0}
+    \setcounter{equation}{0}
+    \setcounter{footnote}{0}
+    \write\myoutput{Authors\thesection: "#1"}
+    \write\myoutput{Article\thesection: "#2"}
+    \write\myoutput{First\thesection: \thepage}
+}
+
 
 % Авторы со сносками для шапки
 \newcommand{\esgiAuthorsHat}[1]{%
@@ -684,12 +705,27 @@ pdftitle={\esgiYear{} Т. \esgiVol{}. № \esgiNum{}.}, luatex]{hyperref}
 
 
 % шапка
-\newcommand{\esgiHeader}[1]{%
+\newcommand{\esgiHeaderO}[1]{%
     \begin{flushleft}
         \footnotesize\bfseries
-        \esgiName .\esgiYear . Т.~\esgiVol .~№~\esgiNum . С.~\esgiSecFP --\esgiSecLP .\\
-        \esgiNameEn .\esgiYear . Vol.~\esgiVol . No.~\esgiNum . P.~\esgiSecFP --\esgiSecLP .\\
+        \esgiName . \esgiYear . Т.~\esgiVol .~№~\esgiNum . С.~\esgiSecFP --\esgiSecLP .\\
+        \esgiNameEn . \esgiYear . Vol.~\esgiVol . No.~\esgiNum . P.~\esgiSecFP --\esgiSecLP .\\
         Научная статья
+
+        \vspace{1em}
+
+        УДК #1\\
+        DOI: \href{https://doi.org/\esgiDOIPrefix -\esgiYear -\esgiVol -\esgiNum -\esgiSecFP -\esgiSecLP}{\esgiDOIPrefix -\esgiYear -\esgiVol -\esgiNum -\esgiSecFP -\esgiSecLP}\\
+        EDN: \href{https://elibrary.ru/\esgiEDN}{\esgiEDN}
+    \end{flushleft}
+}
+
+\newcommand{\esgiHeaderR}[1]{%
+    \begin{flushleft}
+        \footnotesize\bfseries
+        \esgiName . \esgiYear . Т.~\esgiVol .~№~\esgiNum . С.~\esgiSecFP --\esgiSecLP .\\
+        \esgiNameEn . \esgiYear . Vol.~\esgiVol . No.~\esgiNum . P.~\esgiSecFP --\esgiSecLP .\\
+        Обзорная статья
 
         \vspace{1em}
 
