@@ -68,8 +68,7 @@
 \RequirePackage[dvipsnames]{xcolor}
 
 
-\definecolor{colorMain}{HTML}{00ADEE}
-\definecolor{colorGray}{HTML}{505050}
+\definecolor{colorMain}{HTML}{001D55}
 \definecolor{colorURL}{HTML}{0b0147}
 
 % таблицы серый фон
@@ -310,7 +309,7 @@ BoldItalicFont = *-BoldItalic
 %{\vspace{.5ex}}
 %[\thispagestyle{empty}\afterpage{\blankpage}]
 \titleformat{\chapter}[block]
-  {\normalfont\Large\bfseries\filcenter\color{colorGray}}
+  {\normalfont\Large\bfseries\filcenter\color{colorMain}}
   {\parbox{0.7\textwidth}{\filcenter\MakeUppercase{#1}}}
   {0pt}
   {}
@@ -376,18 +375,18 @@ BoldItalicFont = *-BoldItalic
 
 \titlecontents{chapter}
 [0pt]
-{\addvspace{1em}\filcenter}
-{\bfseries}
-{\bfseries}%\hspace*{-9mm}
+{\addvspace{0.5em}\filcenter}
+{\bfseries\normalsize}
+{\bfseries\normalsize}%\hspace*{-9mm}
 {}[\medskip]
 
 
 \titlecontents{section}
-[9mm]
-{}
-{\small}
-{}%\hspace*{-9mm}
-{\titlerule*[0.3pc]{.}\contentspage}[\medskip]
+[0pt]
+{\addvspace{-0.3em}\filright}
+{\footnotesize}
+{\footnotesize}%\hspace*{-9mm}
+{\titlerule*[0.3pc]{.}\footnotesize\contentspage}[\medskip]
 
 % Запрет переносов
 % см. https://tex.stackexchange.com/questions/430173/disable-hyphenation-in-toc
@@ -405,26 +404,26 @@ BoldItalicFont = *-BoldItalic
 \newpagestyle{main}[\small]{
     %\setheadrule{0.6pt}%
     \sethead[]%                                                 even-left
-            [\color{colorGray}\itshape \chaptertitle]%          even-center
+            [\color{colorMain}\itshape \chaptertitle]%          even-center
             []%                                                 even-right
             {}%                                                 odd-left
-            {\color{colorGray} \itshape \esgiAuthors}%                   odd-center
+            {\color{colorMain} \itshape \esgiAuthors}%                   odd-center
             {}\headrule
     \setfoot[]%                                                 even-left
             [{\begin{tabular}{c@{}}
-              \color{colorGray} \itshape \esgiName~Т.~\esgiVol~№~\esgiNum~(\esgiYear)\\
-              \color{colorGray} \itshape \esgiNameEn~\esgiVol{}.\esgiNum~(\esgiYear)
+              \color{colorMain} \itshape \esgiName~Т.~\esgiVol~№~\esgiNum~(\esgiYear)\\
+              \color{colorMain} \itshape \esgiNameEn~\esgiVol{}.\esgiNum~(\esgiYear)
             \end{tabular}}
             ]%                even-center
-            [\color{colorGray} \thepage]%                                                 even-right
-            {\color{colorGray} \thepage}%                                                 odd-left
+            [\color{colorMain} \thepage]%                                                 even-right
+            {\color{colorMain} \thepage}%                                                 odd-left
             {{\begin{tabular}{c@{}}
-              \color{colorGray} \itshape \esgiName~Т.~\esgiVol~№~\esgiNum~(\esgiYear)\\
-              \color{colorGray} \itshape \esgiNameEn~\esgiVol{}.\esgiNum~(\esgiYear)
+              \color{colorMain} \itshape \esgiName~Т.~\esgiVol~№~\esgiNum~(\esgiYear)\\
+              \color{colorMain} \itshape \esgiNameEn~\esgiVol{}.\esgiNum~(\esgiYear)
             \end{tabular}}}%                   odd-center
             {}\footrule %                        odd-right
-            \renewcommand{\makeheadrule}{\color{colorGray} \rule[-.3\baselineskip]{\linewidth}{0.6pt}}
-            \renewcommand{\makefootrule}{\color{colorGray} \rule[1.1\baselineskip]{\linewidth}{0.6pt}}
+            \renewcommand{\makeheadrule}{\color{colorMain} \rule[-.3\baselineskip]{\linewidth}{0.6pt}}
+            \renewcommand{\makefootrule}{\color{colorMain} \rule[1.1\baselineskip]{\linewidth}{0.6pt}}
   }
 
 \newpagestyle{mainch}[\small]{
@@ -437,18 +436,18 @@ BoldItalicFont = *-BoldItalic
             {}\headrule
     \setfoot[]%                                                 even-left
             [{\begin{tabular}{c@{}}
-              \color{colorGray} \itshape \esgiName~Т.~\esgiVol~№~\esgiNum~(\esgiYear)\\
-              \color{colorGray} \itshape \esgiNameEn~\esgiVol{}.\esgiNum~(\esgiYear)
+              \color{colorMain} \itshape \esgiName~Т.~\esgiVol~№~\esgiNum~(\esgiYear)\\
+              \color{colorMain} \itshape \esgiNameEn~\esgiVol{}.\esgiNum~(\esgiYear)
             \end{tabular}}]%                even-center
-            [\color{colorGray} \thepage]%                                                 even-right
-            {\color{colorGray} \thepage}%                                                 odd-left
+            [\color{colorMain} \thepage]%                                                 even-right
+            {\color{colorMain} \thepage}%                                                 odd-left
             {{\begin{tabular}{c@{}}
-              \color{colorGray} \itshape \esgiName~Т.~\esgiVol~№~\esgiNum~(\esgiYear)\\
-              \color{colorGray} \itshape \esgiNameEn~\esgiVol{}.\esgiNum~(\esgiYear)
+              \color{colorMain} \itshape \esgiName~Т.~\esgiVol~№~\esgiNum~(\esgiYear)\\
+              \color{colorMain} \itshape \esgiNameEn~\esgiVol{}.\esgiNum~(\esgiYear)
             \end{tabular}}}%                   odd-center
             {}\footrule %                        odd-right
-            \renewcommand{\makeheadrule}{\color{colorGray} \rule[-.3\baselineskip]{\linewidth}{0.6pt}}
-            \renewcommand{\makefootrule}{\color{colorGray} \rule[\baselineskip]{\linewidth}{0.6pt}}
+            \renewcommand{\makeheadrule}{\color{colorMain} \rule[-.3\baselineskip]{\linewidth}{0.6pt}}
+            \renewcommand{\makefootrule}{\color{colorMain} \rule[\baselineskip]{\linewidth}{0.6pt}}
   }
 
 \newpagestyle{auth}[\small]{
@@ -461,18 +460,18 @@ BoldItalicFont = *-BoldItalic
             {}\headrule
     \setfoot[]%                                                 even-left
             [{\begin{tabular}{c@{}}
-              \color{colorGray} \itshape \esgiName~Т.~\esgiVol~№~\esgiNum~(\esgiYear)\\
-              \color{colorGray} \itshape \esgiNameEn~\esgiVol{}.\esgiNum~(\esgiYear)
+              \color{colorMain} \itshape \esgiName~Т.~\esgiVol~№~\esgiNum~(\esgiYear)\\
+              \color{colorMain} \itshape \esgiNameEn~\esgiVol{}.\esgiNum~(\esgiYear)
             \end{tabular}}]%                even-center
-            [\color{colorGray} \thepage]%                                                 even-right
-            {\color{colorGray} \thepage}%                                                 odd-left
+            [\color{colorMain} \thepage]%                                                 even-right
+            {\color{colorMain} \thepage}%                                                 odd-left
             {{\begin{tabular}{c@{}}
-              \color{colorGray} \itshape \esgiName~Т.~\esgiVol~№~\esgiNum~(\esgiYear)\\
-              \color{colorGray} \itshape \esgiNameEn~\esgiVol{}.\esgiNum~(\esgiYear)
+              \color{colorMain} \itshape \esgiName~Т.~\esgiVol~№~\esgiNum~(\esgiYear)\\
+              \color{colorMain} \itshape \esgiNameEn~\esgiVol{}.\esgiNum~(\esgiYear)
             \end{tabular}}}%                   odd-center
             {}\footrule %                        odd-right
-            \renewcommand{\makeheadrule}{\color{colorGray} \rule[-.3\baselineskip]{\linewidth}{0.6pt}}
-            \renewcommand{\makefootrule}{\color{colorGray} \rule[\baselineskip]{\linewidth}{0.6pt}}
+            \renewcommand{\makeheadrule}{\color{colorMain} \rule[-.3\baselineskip]{\linewidth}{0.6pt}}
+            \renewcommand{\makefootrule}{\color{colorMain} \rule[\baselineskip]{\linewidth}{0.6pt}}
   }
 
 
@@ -649,7 +648,7 @@ pdftitle={\esgiYear{} Т. \esgiVol{}. № \esgiNum{}.}, luatex]{hyperref}
 % анг. секция
 \newcommand\esgiChapterEn[1]{
 \begin{center}
-  \parbox{0.7\textwidth}{\normalfont\Large\bfseries\color{colorGray}\begin{center}\MakeUppercase{#1}\end{center}}
+  \parbox{0.7\textwidth}{\normalfont\Large\bfseries\color{colorMain}\begin{center}\MakeUppercase{#1}\end{center}}
 \end{center}  
 }
 
@@ -749,7 +748,7 @@ pdftitle={\esgiYear{} Т. \esgiVol{}. № \esgiNum{}.}, luatex]{hyperref}
 
         УДК #1\\
         DOI: \href{https://doi.org/\esgiDOIPrefix -\esgiYear -\esgiVol -\esgiNum -\esgiSecFP -\esgiSecLP}{\esgiDOIPrefix -\esgiYear -\esgiVol -\esgiNum -\esgiSecFP -\esgiSecLP}\\
-        EDN: \href{https://elibrary.ru/\esgiEDN}{\esgiEDN}
+        EDN: \href{https://elibrary.ru/\esgiEDN}{\esgiEDN}\par
     \end{flushleft}
 }
 
@@ -764,7 +763,7 @@ pdftitle={\esgiYear{} Т. \esgiVol{}. № \esgiNum{}.}, luatex]{hyperref}
 
         УДК #1\\
         DOI: \href{https://doi.org/\esgiDOIPrefix -\esgiYear -\esgiVol -\esgiNum -\esgiSecFP -\esgiSecLP}{\esgiDOIPrefix -\esgiYear -\esgiVol -\esgiNum -\esgiSecFP -\esgiSecLP}\\
-        EDN: \href{https://elibrary.ru/\esgiEDN}{\esgiEDN}
+        EDN: \href{https://elibrary.ru/\esgiEDN}{\esgiEDN}\par
     \end{flushleft}
 }
 
@@ -784,34 +783,22 @@ pdftitle={\esgiYear{} Т. \esgiVol{}. № \esgiNum{}.}, luatex]{hyperref}
 {\par\medskip\noindent\minipage{\linewidth}}
 {\endminipage\par\medskip}
 
-% отступ перед Биб. списком
-\newcommand{\esgiBibSpace}{%
-\vspace{1em}
-}
 
 
 % Оглавление русск. части
 \newcommand{\esgiPrintRuCont}{%
-    \begin{center}
-      {\Large\bfseries\color{colorGray}\MakeUppercase{Содержание}\par}
-    \end{center}
-    %\hyphenchar\font=-1 % disable hyphen
-    % \printcontents[<name>]{<prefix>}{<нач уровень>}[<глубина>]{<toc-code>}
-    {\hypersetup{linkcolor=black}\printcontents[partru]{ }{0}[1]
-    {}}
-    %\hyphenchar\font=`\- % reset hyphen
-    \clearpage
+\setcounter{tocdepth}{1}
+
+\begin{center}
+  \parbox{0.7\textwidth}{\normalfont\Large\bfseries\color{colorMain}\begin{center}СОДЕРЖАНИЕ\end{center}}
+\end{center}  
+
+  {\setstretch{0.9} \hypersetup{linkcolor=black}\tableofcontents}
+  \setmainlinespread
+  \clearpage
 }
 
-% Оглавление англ. части
-\newcommand{\esgiPrintEnCont}{%
-    \pagestyle{empty}
-    {\hspace{5mm}\raggedright\Large\bfseries\MakeUppercase{Contents}\par}
-    %\hyphenchar\font=-1 % disable hyphen
-    {\hypersetup{linkcolor=black}\printcontents[parten]{ }{0}[1]
-    {}}
-    %\hyphenchar\font=`\- % reset hyphen
-}
+
 
 
 % удерживать pagestyle в Оглавлении
@@ -819,10 +806,10 @@ pdftitle={\esgiYear{} Т. \esgiVol{}. № \esgiNum{}.}, luatex]{hyperref}
 
 % логировать выходные данные
 \AtBeginDocument{
-    \write\myoutput{Journal: \esgiName}
-    \write\myoutput{Month: \esgiMonth}
-    \write\myoutput{Num: \esgiNum}
-    \write\myoutput{Year: \esgiYear}
+    \write\myoutput{Journal: "\esgiName"}
+    \write\myoutput{Volume: "\esgiVol"}
+    \write\myoutput{Num: "\esgiNum"}
+    \write\myoutput{Year: "\esgiYear"}
 }
 
 \newcommand{\esgiFooterWrite}{%
