@@ -1,4 +1,4 @@
-\NeedsTeXFormat{LaTeX2e}
+\NeedsTeXFormat{LaTeX2e}[2022-06-01]
 \ProvidesPackage{esgi}[2025/03/14 ESGI journal style]
 
 %*******************
@@ -649,7 +649,8 @@ pdftitle={\esgiYear{} Т. \esgiVol{}. № \esgiNum{}.}, luatex]{hyperref}
 \newcommand\esgiChapterEn[1]{
 \begin{center}
   \parbox{0.7\textwidth}{\normalfont\Large\bfseries\color{colorMain}\begin{center}\MakeUppercase{#1}\end{center}}
-\end{center}  
+\end{center}
+\addetoc{chapter}{#1}
 }
 
 
@@ -708,6 +709,10 @@ pdftitle={\esgiYear{} Т. \esgiVol{}. № \esgiNum{}.}, luatex]{hyperref}
     \write\myoutput{First\thesection: \thepage}
 }
 
+\newcommand\esgiSectionContEn[2]{%
+  \addetoc{section}{\bfseries#1~{\normalfont #2}}
+}
+
 
 % Авторы со сносками для шапки
 \newcommand{\esgiAuthorsHat}[1]{%
@@ -722,7 +727,7 @@ pdftitle={\esgiYear{} Т. \esgiVol{}. № \esgiNum{}.}, luatex]{hyperref}
     \end{flushleft}
 }
 
-\DeclareDocumentCommand \esgiEmail {s m } {%
+\NewDocumentCommand \esgiEmail {s m } {%
   \IfBooleanTF #1 {%
     \begin{flushleft}
       {\itshape \href{mailto:#2}{#2}}
@@ -785,7 +790,7 @@ pdftitle={\esgiYear{} Т. \esgiVol{}. № \esgiNum{}.}, luatex]{hyperref}
 
 
 
-% Оглавление русск. части
+% Русское оглавление
 \newcommand{\esgiPrintRuCont}{%
 \setcounter{tocdepth}{1}
 
@@ -798,8 +803,24 @@ pdftitle={\esgiYear{} Т. \esgiVol{}. № \esgiNum{}.}, luatex]{hyperref}
   \clearpage
 }
 
-
-
+% английское оглавление
+\newcommand\englishtableofcontents{%
+  \if@twocolumn
+    \@restonecoltrue\onecolumn
+  \else
+    \@restonecolfalse
+  \fi
+  \begin{otherlanguage}{english}
+    \begin{center}
+      \parbox{0.7\textwidth}{\normalfont\Large\bfseries\color{colorMain}\begin{center}CONTENTS\end{center}}
+    \end{center}
+  {\setstretch{0.9} \hypersetup{linkcolor=black}\@starttoc{tec}}%
+  \end{otherlanguage}
+  \if@restonecol\twocolumn\fi
+}
+\newcommand{\addetoc}[2]{%
+  \addcontentsline{tec}{#1}{\protect\numberline{\csname the#1\endcsname}#2}%
+}
 
 % удерживать pagestyle в Оглавлении
 \AtBeginDocument{\addtocontents{toc}{\protect\thispagestyle{empty}}}
