@@ -450,13 +450,13 @@ BoldItalicFont = *-BoldItalic
             \renewcommand{\makefootrule}{\color{colorMain} \rule[\baselineskip]{\linewidth}{0.6pt}}
   }
 
-\newpagestyle{auth}[\small]{
+\newpagestyle{info}[\small]{
     %\setheadrule{0.6pt}%
     \sethead[]%                                                 even-left
-            [К сведению авторов]%                               even-center
+            [\color{colorMain}\itshape \chaptertitle]%                               even-center
             []%                                                 even-right
             {}%                                                 odd-left
-            {К сведению авторов}%                               odd-center
+            {\color{colorMain}\itshape \chaptertitle}%                               odd-center
             {}\headrule
     \setfoot[]%                                                 even-left
             [{\begin{tabular}{c@{}}
