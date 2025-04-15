@@ -52,7 +52,7 @@
 
 \newcommand{\esgiName}{Экономические и социально-гуманитарные исследования}
 \newcommand{\esgiNameEn}{Economic and Social Research}
-\newcommand{\esgiNameTransl}{Ekonomicheskie i sotsial’no-gumanitarnye issledovaniya}
+\newcommand{\esgiNameTransl}{Ekonomicheskie i sotsial’no-gumanitarnye issledovaniya}
 \newcommand{\esgiDOIPrefix}{10.24151/2409-1073}
 \newcommand{\esgiMonth}{Апрель}
 
@@ -97,20 +97,15 @@
 
 \RequirePackage{changepage}
 
-\RequirePackage[english, russian]{babel}
-
-% modern mode в babel приводит к появлению лишних точек в библиографии
-%\RequirePackage[english, french, chinese, russian, provide*=*]{babel}
-%\useshorthands*{"}
-%\defineshorthand{"=}{\nobreak-\hskip\z@skip}
-
+\RequirePackage{polyglossia}
+\setmainlanguage[babelshorthands=true]{russian}
+\setotherlanguages{english}
 
 \RequirePackage{fontspec}
-\defaultfontfeatures{Ligatures=TeX}
 
-%\setmainfont{erewhon} 
-%\setromanfont{erewhon}
-%\RequirePackage{erewhon} 
+\RequirePackage{FiraSans}
+\RequirePackage{FiraMono}
+
 \setmainfont{Newton}[
 Extension = .otf,
 UprightFont = *-Regular,
@@ -118,31 +113,7 @@ BoldFont = *-Bold,
 ItalicFont = *-Italic,
 BoldItalicFont = *-BoldItalic
 ]
-\setromanfont{Newton}[
-  Extension = .otf,
-  UprightFont = *-Regular,
-  BoldFont = *-Bold,
-  ItalicFont = *-Italic,
-  BoldItalicFont = *-BoldItalic
-  ]
 
-\RequirePackage{FiraSans}
-\RequirePackage{FiraMono}
-
-\newfontfamily{\cyrillicfont}{Newton}[
-  Extension = .otf,
-  UprightFont = *-Regular,
-  BoldFont = *-Bold,
-  ItalicFont = *-Italic,
-  BoldItalicFont = *-BoldItalic
-  ]
-\newfontfamily{\cyrillicfontrm}{Newton}[
-  Extension = .otf,
-  UprightFont = *-Regular,
-  BoldFont = *-Bold,
-  ItalicFont = *-Italic,
-  BoldItalicFont = *-BoldItalic
-  ]
 \newfontfamily{\cyrillicfontsf}{FiraSans}
 
 \RequirePackage{marvosym} % символ конверта
@@ -450,6 +421,29 @@ BoldItalicFont = *-BoldItalic
             \renewcommand{\makefootrule}{\color{colorMain} \rule{\linewidth}{0.6pt}}
   }
 
+\newpagestyle{front}[\small]{
+    %\setheadrule{0.6pt}%
+    \sethead[]%                                                 even-left
+            []%                                                 even-center
+            []%                                                 even-right
+            {}%                                                 odd-left
+            {}%                                                 odd-center
+            {}
+    \setfoot[]%                                                 even-left
+            [\raisebox{-1.0\height}[0pt]{\setmainlinespread \begin{tabular}{c@{}}
+              \color{colorMain} \itshape \esgiName~Т.~\esgiVol~№~\esgiNum~(\esgiYear)\\
+              \color{colorMain} \itshape \esgiNameEn~\esgiVol{}.\esgiNum~(\esgiYear)
+            \end{tabular}}]%                even-center
+            [\raisebox{-1.3\height}{\color{colorMain} \thepage}]%                                                 even-right
+            {\raisebox{-1.3\height}{\color{colorMain} \thepage}}%                                                 odd-left
+            {\raisebox{-1.0\height}[0pt]{\setmainlinespread \begin{tabular}{c@{}}
+              \color{colorMain} \itshape \esgiName~Т.~\esgiVol~№~\esgiNum~(\esgiYear)\\
+              \color{colorMain} \itshape \esgiNameEn~\esgiVol{}.\esgiNum~(\esgiYear)
+            \end{tabular}}}%                   odd-center
+            {}\footrule %                        odd-right
+            \renewcommand{\makefootrule}{\color{colorMain} \rule{\linewidth}{0.6pt}}
+  }
+
 \newpagestyle{info}[\small]{
     %\setheadrule{0.6pt}%
     \sethead[]%                                                 even-left
@@ -587,7 +581,7 @@ pdftitle={\esgiYear{} Т. \esgiVol{}. № \esgiNum{}.}, luatex]{hyperref}
          \begin{flushleft}
          \noindent {\bfseries\small Для цитирования:}
          \small
-            \esgiAuthors
+            \esgiAuthors{}
             «\esgiSecName».
              \textit{\esgiName} \esgiVol .\esgiNum{} (\esgiYear ): \esgiSecFP --\esgiSecLP .
             \url{https://doi.org/\esgiDOIPrefix -\esgiYear -\esgiVol -\esgiNum -\esgiSecFP -\esgiSecLP}
@@ -603,7 +597,7 @@ pdftitle={\esgiYear{} Т. \esgiVol{}. № \esgiNum{}.}, luatex]{hyperref}
          \begin{flushleft}
          \noindent {\bfseries\small For citation}:
          \small
-            \esgiAuthorsEn
+            \esgiAuthorsEn{}
             ``\titlecap{\esgiSecNameEn}''.
              \textit{\esgiNameTransl{} = \esgiNameEn} \esgiVol .\esgiNum{} (\esgiYear ): \esgiSecFP --\esgiSecLP . (In Russian).
             \url{https://doi.org/\esgiDOIPrefix -\esgiYear -\esgiVol -\esgiNum -\esgiSecFP -\esgiSecLP}
@@ -779,7 +773,7 @@ pdftitle={\esgiYear{} Т. \esgiVol{}. № \esgiNum{}.}, luatex]{hyperref}
       \small
       Статья поступила в редакцию #1, одобрена после рецензирования #2.
 
-      \foreignlanguage{english}{The article was submitted #1, approved after reviewing #2.} \par
+      \textenglish{The article was submitted #1, approved after reviewing #2.} \par
     \end{flushleft}
 }
 
@@ -795,7 +789,7 @@ pdftitle={\esgiYear{} Т. \esgiVol{}. № \esgiNum{}.}, luatex]{hyperref}
 \setcounter{tocdepth}{1}
 
 \begin{center}
-  \parbox{0.7\textwidth}{\normalfont\Large\bfseries\color{colorMain}\begin{center}СОДЕРЖАНИЕ\end{center}}
+  \parbox{0.7\textwidth}{\normalfont\Large\bfseries\color{colorMain}\begin{center}СОДЕРЖАНИЕ\end{center}\vspace{6mm}}
 \end{center}  
 
   {\setstretch{0.9} \hypersetup{linkcolor=black}\tableofcontents}
@@ -810,12 +804,12 @@ pdftitle={\esgiYear{} Т. \esgiVol{}. № \esgiNum{}.}, luatex]{hyperref}
   \else
     \@restonecolfalse
   \fi
-  \begin{otherlanguage}{english}
+  \begin{english}
     \begin{center}
       \parbox{0.7\textwidth}{\normalfont\Large\bfseries\color{colorMain}\begin{center}CONTENTS\end{center}}
     \end{center}
   {\setstretch{0.9} \hypersetup{linkcolor=black}\@starttoc{tec}}%
-  \end{otherlanguage}
+  \end{english}
   \if@restonecol\twocolumn\fi
 }
 \newcommand{\addetoc}[2]{%
@@ -823,7 +817,7 @@ pdftitle={\esgiYear{} Т. \esgiVol{}. № \esgiNum{}.}, luatex]{hyperref}
 }
 
 % удерживать pagestyle в Оглавлении
-\AtBeginDocument{\addtocontents{toc}{\protect\thispagestyle{empty}}}
+\AtBeginDocument{\addtocontents{toc}{\protect\thispagestyle{front}}}
 
 % логировать выходные данные
 \AtBeginDocument{
