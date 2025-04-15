@@ -260,7 +260,8 @@ BoldItalicFont = *-BoldItalic
 }
 
 \DefTblrTemplate{caption-sep}{default}{.\enskip}
-\DefTblrTemplate{contfoot-text}{default}{Продолжение на следующей странице}
+%\DefTblrTemplate{contfoot-text}{default}{Продолжение на следующей странице}
+\DefTblrTemplate{contfoot-text}{default}{}
 \DefTblrTemplate{conthead-text}{default}{(Продолжение таблицы)}
 
 %*******************
@@ -482,14 +483,14 @@ BoldItalicFont = *-BoldItalic
 %*******************
 % висяки и переносы
 %*******************
-\hyphenpenalty=750 % default = 50
-%\RequirePackage{lua-widow-control}
-%\lwcsetup{balanced}
+\hyphenpenalty=300 % default = 50
+\RequirePackage{lua-widow-control}
+\lwcsetup{balanced}
 
 %\clubpenalty=8000
 %\widowpenalty=8000
 %подавление переносов между страницами
-\brokenpenalty=8000\relax
+\brokenpenalty=9000\relax
 
 % автоматизация запрета на отрыв предлогов
 \RequirePackage{luavlna}
