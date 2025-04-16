@@ -90,7 +90,7 @@
 \RequirePackage[paperheight=290mm,
             paperwidth=205mm,
             top=24mm,
-            bottom=40mm,
+            bottom=30mm,
             left=30mm,
             right=20mm]{geometry}
 
@@ -648,18 +648,26 @@ pdftitle={\esgiYear{} Т. \esgiVol{}. № \esgiNum{}.}, luatex]{hyperref}
 \addetoc{chapter}{#1}
 }
 
-
 % секция (статья)
-\newcommand\esgiSection[2]{%
-    \section[\bfseries#1~{\normalfont #2}]{#2}
-    \setcounter{figure}{0}
-    \setcounter{table}{0}
-    \setcounter{equation}{0}
-    \setcounter{footnote}{0}
-    \write\myoutput{Authors\thesection: "#1"}
-    \write\myoutput{Article\thesection: "#2"}
-    \write\myoutput{First\thesection: \thepage}
+
+\NewDocumentCommand\esgiSection{o m}{
+  \IfNoValueTF{#1}
+  {\section[#2]{#2}}
+  {\section[\bfseries#1~{\normalfont #2}]{#2}}
+
+  \setcounter{figure}{0}
+  \setcounter{table}{0}
+  \setcounter{equation}{0}
+  \setcounter{footnote}{0}
+
+  \IfNoValueTF{#1}
+  {\write\myoutput{Authors\thesection: ""}}
+  {\write\myoutput{Authors\thesection: "#1"}}
+  
+  \write\myoutput{Article\thesection: "#2"}
+  \write\myoutput{First\thesection: \thepage}
 }
+
 
 \newcommand\esgiSectionFn[3]{%
 \renewcommand*{\thefootnote}{\fnsymbol{footnote}}%
