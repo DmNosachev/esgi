@@ -230,7 +230,12 @@ BoldItalicFont = *-BoldItalic
 \RequirePackage[lang=english]{bicaption} % двойные подписи для объектов
 \captionsetup{justification=raggedright, singlelinecheck=false}
 %\captionsetup{format=plain, justification=justified, font=small, labelfont=it}
-  
+
+\captionsetup[bi-first]{lang=russian}
+\captionsetup[bi-second]{lang=english}
+
+\captionsetup[figure][bi-first]{name=Рис.}
+\captionsetup[figure][bi-second]{name=Fig.}
 
 \renewcommand\thesubfigure{\asbuk{subfigure})}
 
