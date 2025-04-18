@@ -147,28 +147,7 @@ BoldItalicFont = *-BoldItalic
 \def\du{\ensuremath{\mathrm{d}}}
 
 
-%*******************
-% листинги
-%*******************
-%\RequirePackage{minted}
-%\setminted{
-%  baselinestretch=1.0,
-%   breaklines,
-%  fontsize=\footnotesize,
-%  frame=lines,
-%  framesep=2mm
-%}
 
-% убираем красные рамки (https://tex.stackexchange.com/questions/343494/minted-red-box-around-greek-characters)
-%\RequirePackage{etoolbox}
-%\RequirePackage{xpatch}
-
-%\AtBeginEnvironment{minted}{\dontdofcolorbox}
-%\def\dontdofcolorbox{\renewcommand\fcolorbox[4][]{##4}}
-%\xpatchcmd{\inputminted}{\minted@fvset}{\minted@fvset\dontdofcolorbox}{}{}
-%\xpatchcmd{\mintinline}{\minted@fvset}{\minted@fvset\dontdofcolorbox}{}{} % see https://tex.stackexchange.com/a/401250/
-
-%\renewcommand{\listingscaption}{Листинг}
 
 %*******************
 % графика
@@ -210,6 +189,11 @@ BoldItalicFont = *-BoldItalic
   \addtocounter{footnote}{-1}%
   \endgroup
 }    
+
+% отступ от маркера в сноске
+\long\def\@makefntext#1{%
+  \parindent 1em\noindent\hb@xt@ 1.8em{\hss\@makefnmark}~#1%
+}
 
 %*******************
 % Списки
@@ -253,6 +237,8 @@ BoldItalicFont = *-BoldItalic
     \SetTblrStyle{caption}{hang=0pt}
     \SetTblrStyle{head}{hang=0pt}
     \SetTblrStyle{conthead}{hang=0pt}
+    \SetTblrStyle{remark-tag}{font=\footnotesize}
+    \SetTblrStyle{remark-text}{font=\footnotesize}
 }
 
 \DefTblrTemplate{capcont}{default}{%
