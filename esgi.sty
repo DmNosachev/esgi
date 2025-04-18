@@ -7,6 +7,8 @@
 
 \RequirePackage{xkeyval}
 
+\define@boolkey{esgi}{color}[true]{}
+
 \define@key{esgi}{prndate}{%
   \newcommand{\esgiPrintDate}{#1} % Подписано в печать
 }
@@ -68,8 +70,15 @@
 \RequirePackage[dvipsnames]{xcolor}
 
 
-\definecolor{colorMain}{HTML}{001D55}
-\definecolor{colorURL}{HTML}{0b0147}
+
+
+\ifKV@esgi@color
+  \definecolor{colorMain}{HTML}{001D55}
+  \definecolor{colorURL}{HTML}{0b0147}
+\else
+  \colorlet{colorMain}{Black}
+  \colorlet{colorURL}{Black}
+\fi
 
 % таблицы серый фон
 \definecolor{colorTbGray}{HTML}{E6E6E6}
@@ -84,6 +93,10 @@
 \newwrite\myoutput
 \immediate\openout\myoutput=\jobname.data
 
+% для for loop
+
+\RequirePackage{pgffor}
+
 %*******************
 % размеры и поля
 %*******************
@@ -93,6 +106,13 @@
             bottom=30mm,
             left=30mm,
             right=20mm]{geometry}
+
+%\RequirePackage[paperheight=283mm,
+%            paperwidth=195mm,
+%            top=24mm,
+%            bottom=30mm,
+%            left=32mm,
+%            right=18mm]{geometry}
 
 
 \RequirePackage{changepage}
@@ -829,10 +849,3 @@ pdftitle={\esgiYear{} Т. \esgiVol{}. № \esgiNum{}.}, luatex]{hyperref}
 \newcommand{\esgiFooterWrite}{%
     \immediate\write\myoutput{Last\thesection: \thepage}
 }
-
-% блок с предотвращением разрыва страниц
-\newenvironment{glued}
-  {\par\nobreak\vfil\penalty0\vfilneg
-   \vtop\bgroup}
-  {\par\xdef\tpd{\the\prevdepth}\egroup
-   \prevdepth=\tpd}
