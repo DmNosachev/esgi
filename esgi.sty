@@ -192,7 +192,10 @@ BoldItalicFont = *-BoldItalic
 \RequirePackage{float} % Расширенное управление плавающими объектами
 \RequirePackage{placeins} % для \FloatBarrier 
 \RequirePackage{multicol} % Многоколоночная верстка
-\RequirePackage[labelformat=simple]{subcaption}
+
+
+
+
 \RequirePackage{lscape} % повернутые страницы
 
 % вставка пустой страницы
@@ -243,7 +246,20 @@ BoldItalicFont = *-BoldItalic
 \captionsetup[figure][bi-first]{name=Рис.}
 \captionsetup[figure][bi-second]{name=Fig.}
 
-\renewcommand\thesubfigure{\asbuk{subfigure})}
+% subfigure
+%[labelformat=simple, subrefformat=simple]
+\RequirePackage{subcaption}
+
+%\renewcommand\thesubfigure{\alph{subfigure})}
+
+%\DeclareCaptionLabelSeparator{cbrak}{)}
+\DeclareCaptionLabelFormat{mysublabelfmt}{\alph{sub\@captype})}
+
+\captionsetup[sub]{labelformat=mysublabelfmt}
+
+
+
+
 
 %*******************
 % таблицы
