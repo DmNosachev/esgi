@@ -66,6 +66,7 @@
 \newcommand{\esgiSecLP}{0} % последняя страница
 \newcommand{\esgiSecName}{} % название статьи
 \newcommand{\esgiSecNameEn}{}
+\newcommand{\esgiArtID}{} % ID статьи
 
 \RequirePackage[dvipsnames]{xcolor}
 
@@ -613,8 +614,8 @@ pdftitle={\esgiYear{} Т. \esgiVol{}. № \esgiNum{}.}, luatex]{hyperref}
          \small
             \esgiAuthors{}
             «\esgiSecName».
-             \textit{\esgiName} \esgiVol .\esgiNum{} (\esgiYear ): \esgiSecFP --\esgiSecLP .
-            \url{https://doi.org/\esgiDOIPrefix -\esgiYear -\esgiVol -\esgiNum -\esgiSecFP -\esgiSecLP}
+             \textit{\esgiName} \esgiVol .\esgiNum{} (\esgiYear ): \esgiArtID .
+            \url{https://doi.org/\esgiDOIPrefix -\esgiYear -\esgiVol -\esgiNum -\esgiArtID}
             \href{https://elibrary.ru/\esgiEDN}{EDN: \esgiEDN.}
          \end{flushleft}
      \endgroup
@@ -629,8 +630,8 @@ pdftitle={\esgiYear{} Т. \esgiVol{}. № \esgiNum{}.}, luatex]{hyperref}
          \small
             \esgiAuthorsEn{}
             ``\titlecap{\esgiSecNameEn}''.
-             \textit{\esgiNameTransl{} = \esgiNameEn} \esgiVol .\esgiNum{} (\esgiYear ): \esgiSecFP --\esgiSecLP . (In Russian).
-            \url{https://doi.org/\esgiDOIPrefix -\esgiYear -\esgiVol -\esgiNum -\esgiSecFP -\esgiSecLP}
+             \textit{\esgiNameTransl{} = \esgiNameEn} \esgiVol .\esgiNum{} (\esgiYear ): \esgiArtID . (In Russian).
+            \url{https://doi.org/\esgiDOIPrefix -\esgiYear -\esgiVol -\esgiNum -\esgiArtID}
             %\href{https://elibrary.ru/\esgiEDN}{EDN: \esgiEDN}
          \end{flushleft}
      \endgroup
@@ -776,8 +777,8 @@ pdftitle={\esgiYear{} Т. \esgiVol{}. № \esgiNum{}.}, luatex]{hyperref}
 \newcommand{\esgiHeaderO}[1]{%
     \begin{flushleft}
         \footnotesize\bfseries
-        \esgiName . \esgiYear . Т.~\esgiVol .~№~\esgiNum . С.~\esgiSecFP --\esgiSecLP .\\
-        \esgiNameEn . \esgiYear . Vol.~\esgiVol . No.~\esgiNum . P.~\esgiSecFP --\esgiSecLP .\\
+        \esgiName . \esgiYear . Т.~\esgiVol .~№~\esgiNum . Art.\,ID \esgiArtID .\\
+        \esgiNameEn . \esgiYear . Vol.~\esgiVol . No.~\esgiNum . Art.\,ID \esgiArtID .\\
         Научная статья
 
         \vspace{1em}
