@@ -312,7 +312,7 @@ BoldItalicFont = *-BoldItalic
 %[\thispagestyle{empty}\afterpage{\blankpage}]
 \titleformat{\chapter}[block]
   {\normalfont\Large\bfseries\filcenter\color{colorMain}}
-  {\parbox{0.7\textwidth}{\filcenter\MakeUppercase{#1}}}
+  {\parbox{0.8\textwidth}{\filcenter\MakeUppercase{#1}}}
   {0pt}
   {}
   []
@@ -673,7 +673,7 @@ pdftitle={\esgiYear{} Т. \esgiVol{}. № \esgiNum{}.}, luatex]{hyperref}
 % анг. секция
 \newcommand\esgiChapterEn[1]{
 \begin{center}
-  \parbox{0.7\textwidth}{\normalfont\Large\bfseries\color{colorMain}\begin{center}\MakeUppercase{#1}\end{center}}
+  \parbox{0.8\textwidth}{\normalfont\Large\bfseries\color{colorMain}\begin{center}\MakeUppercase{#1}\end{center}}
 \end{center}
 \addetoc{chapter}{#1}
 }
