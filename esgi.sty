@@ -52,6 +52,20 @@
 
 \ProcessOptionsX<esgi>
 
+\RequirePackage{luacode}
+
+\begin{luacode}
+  function replace_dot_with_comma(s)
+    -- Use gsub to replace all occurrences of '.' with ','
+    -- The '.' needs to be escaped as it's a magic character in patterns
+    return string.gsub(s, "%.", ",")
+  end
+\end{luacode}
+
+\newcommand{\formatnum}[1]{%
+  \directlua{tex.print(replace_dot_with_comma("#1"))}%
+}
+
 \newcommand{\esgiName}{Экономические и социально-гуманитарные исследования}
 \newcommand{\esgiNameEn}{Economic and Social Research}
 \newcommand{\esgiNameTransl}{Ekonomicheskie i sotsial’no-gumanitarnye issledovaniya}
@@ -626,7 +640,7 @@ pdftitle={\esgiYear{} Т. \esgiVol{}. № \esgiNum{}.}, luatex]{hyperref}
      \begingroup
          \setstretch{1.0}
          \begin{flushleft}
-         \noindent {\bfseries\small For citation}:
+         \noindent {\bfseries\small For citation:}
          \small
             \esgiAuthorsEn{}
             ``\titlecap{\esgiSecNameEn}''.
