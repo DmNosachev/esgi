@@ -806,8 +806,8 @@ pdftitle={\esgiYear{} Т. \esgiVol{}. № \esgiNum{}.}, luatex]{hyperref}
 \newcommand{\esgiHeaderR}[1]{%
     \begin{flushleft}
         \footnotesize\bfseries
-        \esgiName . \esgiYear . Т.~\esgiVol .~№~\esgiNum . С.~\esgiSecFP --\esgiSecLP .\\
-        \esgiNameEn . \esgiYear . Vol.~\esgiVol . No.~\esgiNum . P.~\esgiSecFP --\esgiSecLP .\\
+        \esgiName . \esgiYear . Т.~\esgiVol .~№~\esgiNum . Art.\,ID \esgiArtID .\\
+        \esgiNameEn . \esgiYear . Vol.~\esgiVol . No.~\esgiNum . Art.\,ID \esgiArtID .\\
         Обзорная статья
 
         \vspace{1em}
@@ -817,6 +817,8 @@ pdftitle={\esgiYear{} Т. \esgiVol{}. № \esgiNum{}.}, luatex]{hyperref}
         EDN: \href{https://elibrary.ru/\esgiEDN}{\esgiEDN}\par
     \end{flushleft}
 }
+
+
 
 % 1 = дата поступления в редакцию, 2 = дата рецензирования
 \newcommand{\esgiDates}[2]{%
