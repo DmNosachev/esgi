@@ -867,6 +867,7 @@ pdftitle={\esgiYear{} Т. \esgiVol{}. № \esgiNum{}.}, luatex]{hyperref}
   \if@restonecol\twocolumn\fi
 }
 \newcommand{\addetoc}[2]{%
+  \phantomsection
   \addcontentsline{tec}{#1}{\protect\numberline{\csname the#1\endcsname}#2}%
 }
 
