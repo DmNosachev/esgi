@@ -409,6 +409,10 @@ BoldItalicFont = *-BoldItalic
 % не работает для частичных ToC
 \renewcommand{\@tocrmarg}{2.55em plus1fil}
 
+
+% переносы
+\input{hyphenation.tex}
+
 % Для главы убрать верхний колонтитул
 %\assignpagestyle{\chapter}{mainch}
 
@@ -546,7 +550,7 @@ BoldItalicFont = *-BoldItalic
 % hyperref
 %*******************
 
-\PassOptionsToPackage{hyphens}{url}
+%\PassOptionsToPackage{hyphens}{url}
 
 \RequirePackage[final,
 pdfauthor={\esgiName},
@@ -565,6 +569,9 @@ pdftitle={\esgiYear{} Т. \esgiVol{}. № \esgiNum{}.}, luatex]{hyperref}
 
 
 \urlstyle{rm}
+
+\RequirePackage{xurl}
+
 
 %*******************
 % Окружения и макросы
