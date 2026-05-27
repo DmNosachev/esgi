@@ -210,7 +210,6 @@ BoldItalicFont = *-BoldItalic
 
 
 
-
 \RequirePackage{lscape} % повернутые страницы
 
 % вставка пустой страницы
@@ -636,8 +635,8 @@ pdftitle={\esgiYear{} Т. \esgiVol{}. № \esgiNum{}.}, luatex]{hyperref}
             \esgiAuthors{}
             «\esgiSecName».
              \textit{\esgiName} \esgiVol .\esgiNum{} (\esgiYear ): \esgiArtID .
-            \url{https://doi.org/\esgiDOIPrefix -\esgiYear -\esgiVol -\esgiNum -\esgiArtID}
-            \href{https://elibrary.ru/\esgiEDN}{EDN: \esgiEDN.}
+            \printDOIURL
+            ~\href{https://elibrary.ru/\esgiEDN}{EDN: \esgiEDN.}
          \end{flushleft}
      \endgroup
     }
@@ -651,8 +650,8 @@ pdftitle={\esgiYear{} Т. \esgiVol{}. № \esgiNum{}.}, luatex]{hyperref}
          \small
             \esgiAuthorsEn{}
             ``\titlecap{\esgiSecNameEn}''.
-             \textit{\esgiNameTransl{} = \esgiNameEn} \esgiVol .\esgiNum{} (\esgiYear ): \esgiArtID . (In Russian).
-            \url{https://doi.org/\esgiDOIPrefix -\esgiYear -\esgiVol -\esgiNum -\esgiArtID}
+             \textit{\esgiNameTransl{} = \esgiNameEn} \esgiVol .\esgiNum{} (\esgiYear ): \esgiArtID . (In Russian). 
+            \printDOIURL
             %\href{https://elibrary.ru/\esgiEDN}{EDN: \esgiEDN}
          \end{flushleft}
      \endgroup
@@ -792,38 +791,36 @@ pdftitle={\esgiYear{} Т. \esgiVol{}. № \esgiNum{}.}, luatex]{hyperref}
   }
 }
 
+% шапка Latex3
 
+\ExplSyntaxOn
 
-% шапка
-\newcommand{\esgiHeaderO}[1]{%
-    \begin{flushleft}
+\cs_new:Npn \printDOIURL
+ {
+   \tl_set:Nx \l_tmpa_tl { \text_lowercase:n { \esgiEDN } }
+   \exp_args:Ne \url { https://doi.org/\esgiDOIPrefix-\esgiYear-\esgiVol-\esgiNum-\esgiArtID.\l_tmpa_tl }
+ }
+
+\NewDocumentCommand{\esgiHeader}{s m}
+ {
+   \begin{flushleft}
         \footnotesize\bfseries
         \esgiName . \esgiYear . Т.~\esgiVol .~№~\esgiNum . Art.\,ID \esgiArtID .\\
         \esgiNameEn . \esgiYear . Vol.~\esgiVol . No.~\esgiNum . Art.\,ID \esgiArtID .\\
-        Научная статья
-
+        \IfBooleanTF{#1}
+          { Обзорная~статья }  % \esgiHeader*
+          { Научная~статья }
+        \par
         \vspace{1em}
 
-        УДК #1\\
-        DOI: \url{https://doi.org/\esgiDOIPrefix -\esgiYear -\esgiVol -\esgiNum -\esgiArtID}\\
-        EDN: \url{https://elibrary.ru/\esgiEDN}\par
-    \end{flushleft}
-}
+        УДК~#2\\
+        DOI:~\printDOIURL\\
+        EDN:~\url{https://elibrary.ru/\esgiEDN}\par
+   \end{flushleft}
+ }
+\ExplSyntaxOff
 
-\newcommand{\esgiHeaderR}[1]{%
-    \begin{flushleft}
-        \footnotesize\bfseries
-        \esgiName . \esgiYear . Т.~\esgiVol .~№~\esgiNum . Art.\,ID \esgiArtID .\\
-        \esgiNameEn . \esgiYear . Vol.~\esgiVol . No.~\esgiNum . Art.\,ID \esgiArtID .\\
-        Обзорная статья
 
-        \vspace{1em}
-
-        УДК #1\\
-        DOI: \href{https://doi.org/\esgiDOIPrefix -\esgiYear -\esgiVol -\esgiNum -\esgiArtID}{\esgiDOIPrefix -\esgiYear -\esgiVol -\esgiNum -\esgiArtID}\\
-        EDN: \href{https://elibrary.ru/\esgiEDN}{\esgiEDN}\par
-    \end{flushleft}
-}
 
 
 
@@ -894,3 +891,41 @@ pdftitle={\esgiYear{} Т. \esgiVol{}. № \esgiNum{}.}, luatex]{hyperref}
 }
 
 \newcommand{\newcol}{\vfill\null\columnbreak}
+
+
+%%%%%%%%% Legacy %%%%%%%%%%
+
+
+% шапка legacy
+
+\def\doigen{\esgiDOIPrefix-{\esgiYear}-{\esgiVol}-{\esgiNum}-{\esgiArtID}}
+
+\newcommand{\esgiHeaderO}[1]{%
+    \begin{flushleft}
+        \footnotesize\bfseries
+        \esgiName . \esgiYear . Т.~\esgiVol .~№~\esgiNum . Art.\,ID \esgiArtID .\\
+        \esgiNameEn . \esgiYear . Vol.~\esgiVol . No.~\esgiNum . Art.\,ID \esgiArtID .\\
+        Научная статья
+
+        \vspace{1em}
+        
+        УДК #1\\
+        DOI: \expandafter\url\expandafter{https://doi.org/\doigen}\\
+        EDN: \expandafter\url\expandafter{https://elibrary.ru/\esgiEDN}\par
+    \end{flushleft}
+}
+
+\newcommand{\esgiHeaderR}[1]{%
+    \begin{flushleft}
+        \footnotesize\bfseries
+        \esgiName . \esgiYear . Т.~\esgiVol .~№~\esgiNum . Art.\,ID \esgiArtID .\\
+        \esgiNameEn . \esgiYear . Vol.~\esgiVol . No.~\esgiNum . Art.\,ID \esgiArtID .\\
+        Обзорная статья
+
+        \vspace{1em}
+
+        УДК #1\\
+        DOI: \expandafter\url\expandafter{https://doi.org/\doigen}\\
+        EDN: \expandafter\url\expandafter{https://elibrary.ru/\esgiEDN}\par
+    \end{flushleft}
+}
