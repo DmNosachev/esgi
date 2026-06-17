@@ -290,6 +290,7 @@ BoldItalicFont = *-BoldItalic
     \SetTblrStyle{head}{hang=0pt}
     \SetTblrStyle{conthead}{hang=0pt}
     \SetTblrStyle{remark-tag}{font=\footnotesize}
+    \SetTblrStyle{remark-sep}{font=\itshape\footnotesize}
     \SetTblrStyle{remark-text}{font=\footnotesize}
 }
 
@@ -702,7 +703,7 @@ pdftitle={\esgiYear{} Т. \esgiVol{}. № \esgiNum{}.}, luatex]{hyperref}
 
 \NewDocumentCommand\esgiSection{o m}{
   \IfNoValueTF{#1}
-  {\section[#2]{#2}}
+  {\section{#2}}
   {\section[\bfseries#1~{\normalfont #2}]{#2}}
 
   \setcounter{figure}{0}
