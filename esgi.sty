@@ -151,6 +151,9 @@ ItalicFont = *-Italic,
 BoldItalicFont = *-BoldItalic
 ]
 
+% nbsp в Newton слишком широкий
+\DeclareRobustCommand{\nobreakspace}{\leavevmode\nobreak\ }
+
 \newfontfamily{\cyrillicfontsf}{FiraSans}
 
 \RequirePackage{marvosym} % символ конверта
@@ -385,6 +388,40 @@ BoldItalicFont = *-BoldItalic
 {8pt} % before
 {4pt} % after
 
+% спец заголовки в editorial board
+
+\RequirePackage{needspace}
+
+%--- 2. Параметры отступов вокруг заголовков -----------------
+%    Выбираем фиксированные величины, которые будем использовать в макросе.
+%    Их удобно задавать через \baselineskip – тогда они масштабируются
+%    вместе с размером шрифта.
+\newlength{\edtskipabove}
+\newlength{\edtskipbelow}
+\setlength{\edtskipabove}{1.2\baselineskip} % отступ сверху
+\setlength{\edtskipbelow}{0.6\baselineskip} % отступ снизу
+
+%--- 3. Сам макрос заголовка ---------------------------------
+%    • \needspace{<len>} гарантирует, что заголовок не будет разорван
+%      между колонками (если в текущей колонке осталось меньше <len>,
+%      LaTeX перейдёт в следующую колонку).  
+%    • \addvspace добавляет вертикальный «клей», но не удваивает его,
+%      если два заголовка идут подряд.
+%    • \noindent\textbf{#1} – простое оформление без счётчиков и TOC.
+\newcommand{\esgiEdtHead}[1]{%
+  % 1) Не разрывать заголовок между колонками
+  \needspace{3\baselineskip}% (заголовок + два абзаца «запас»)
+  % 2) Вертикальный отступ сверху (если перед заголовком уже был
+  %    вертикальный glue, \addvspace не удвоит его)
+  \addvspace{\edtskipabove}%
+  % 3) Сам заголовок
+  \begin{center}
+    \textbf{#1}\par%
+  \end{center}
+  % 4) Вертикальный отступ снизу
+  \addvspace{\edtskipbelow}%
+}
+
 %*******************
 % Стили в оглавлении
 %*******************
@@ -591,7 +628,7 @@ pdftitle={\esgiYear{} Т. \esgiVol{}. № \esgiNum{}.}, luatex]{hyperref}
          \small #1\par
          \end{flushleft}
      \endgroup
-     \write\myoutput{Keywords\thesection: "#1"}
+     %\write\myoutput{Keywords\thesection: "#1"}
     }
 
 \newcommand{\esgiKwordsEn}[1]
@@ -600,6 +637,28 @@ pdftitle={\esgiYear{} Т. \esgiVol{}. № \esgiNum{}.}, luatex]{hyperref}
          \setstretch{1.0}
          \begin{flushleft}
          \noindent {\bfseries\small Keywords:}
+         \small #1\par
+         \end{flushleft}
+     \endgroup
+    }
+
+\newcommand{\esgiFin}[1]
+    {
+     \begingroup
+         \setstretch{1.0}
+         \begin{flushleft}
+         \noindent {\bfseries\small Финансирование:}
+         \small #1\par
+         \end{flushleft}
+     \endgroup
+    }
+
+\newcommand{\esgiFinEn}[1]
+    {
+     \begingroup
+         \setstretch{1.0}
+         \begin{flushleft}
+         \noindent {\bfseries\small Funding:}
          \small #1\par
          \end{flushleft}
      \endgroup
@@ -651,7 +710,7 @@ pdftitle={\esgiYear{} Т. \esgiVol{}. № \esgiNum{}.}, luatex]{hyperref}
          \small
             \esgiAuthorsEn{}
             ``\titlecap{\esgiSecNameEn}''.
-             \textit{\esgiNameTransl{} = \esgiNameEn} \esgiVol .\esgiNum{} (\esgiYear ): \esgiArtID . (In Russian). 
+             \textit{\esgiNameTransl~= \esgiNameEn} \esgiVol .\esgiNum{} (\esgiYear ): \esgiArtID . (In Russian). 
             \printDOIURL
             %\href{https://elibrary.ru/\esgiEDN}{EDN: \esgiEDN}
          \end{flushleft}
@@ -762,10 +821,24 @@ pdftitle={\esgiYear{} Т. \esgiVol{}. № \esgiNum{}.}, luatex]{hyperref}
     \write\myoutput{First\thesection: \thepage}
 }
 
-\newcommand\esgiSectionContEn[2]{%
-  \addetoc{section}{\bfseries#1~{\normalfont #2}}
-}
+%\newcommand\esgiSectionContEn[2]{%
+%  \addetoc{section}{\bfseries#1~{\normalfont #2}}
+%}
 
+\ExplSyntaxOn
+
+\NewDocumentCommand \esgiSectionContEn { m o }
+ {
+   \IfNoValueTF {#2}
+     { % ---------- только один аргумент ----------
+       \addetoc{section}{\normalfont #1}
+     }
+     { % ---------- два аргумента ----------
+       \addetoc{section}{\bfseries #1~{\normalfont #2}}
+     }
+ }
+
+\ExplSyntaxOff
 
 % Авторы со сносками для шапки
 \newcommand{\esgiAuthorsHat}[1]{%
@@ -802,6 +875,8 @@ pdftitle={\esgiYear{} Т. \esgiVol{}. № \esgiNum{}.}, luatex]{hyperref}
    \exp_args:Ne \url { https://doi.org/\esgiDOIPrefix-\esgiYear-\esgiVol-\esgiNum-\esgiArtID.\l_tmpa_tl }
  }
 
+% \esgiHeader*{УДК} = Обзорная~статья
+% \esgiHeader{УДК} = Научная~статья
 \NewDocumentCommand{\esgiHeader}{s m}
  {
    \begin{flushleft}
